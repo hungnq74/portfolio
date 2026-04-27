@@ -37,88 +37,93 @@ export function HorizontalTimeline() {
     offset: ["start start", "end end"],
   })
 
-  const introOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
-  const x = useTransform(scrollYProgress, [0.1, 0.9], ["0vw", "-270vw"])
+  const x = useTransform(scrollYProgress, [0, 1], ["0vw", "-350vw"])
 
   return (
-    <div ref={ref} style={{ height: "300vh" }}>
+    <div ref={ref} style={{ height: "400vh" }}>
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Intro headline */}
-        <motion.div
-          style={{ opacity: introOpacity }}
-          className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
-        >
-          <p
-            className="font-serif text-slate-900 text-center leading-tight px-8"
-            style={{ fontSize: "clamp(28px, 4vw, 52px)" }}
-          >
-            I don't wait for permission.
-            <br />
-            <em>I build.</em>
-          </p>
-        </motion.div>
-
         {/* Horizontal strip */}
         <div className="absolute inset-0 flex items-center">
           <motion.div
-            style={{ x, width: "350vw" }}
-            className="flex items-center"
+            style={{ x, width: "440vw" }}
+            className="flex items-center h-full"
           >
-            {/* Connecting line */}
+            {/* Connecting line — start after the first 100vw so it doesn't cross the intro text */}
             <div
-              className="absolute top-1/2 -translate-y-1/2 h-px"
+              className="absolute top-1/2 -translate-y-1/2 h-[1px]"
               style={{
-                width: "350vw",
-                background: "rgba(255,255,255,0.3)",
-                left: 0,
+                width: "340vw",
+                background: "rgba(15,23,42,0.15)",
+                left: "100vw",
               }}
             />
 
+            {/* Intro node (Slide 1) */}
+            <div className="w-[100vw] h-screen flex flex-none items-center justify-center">
+              <p
+                className="font-serif text-slate-900 text-center leading-tight px-8"
+                style={{ fontSize: "clamp(28px, 4vw, 52px)" }}
+              >
+                I don't wait for permission.
+                <br />
+                <em>I build.</em>
+              </p>
+            </div>
+
+            {/* Milestone nodes (Slides 2-5) */}
             {NODES.map((node, i) => (
               <div
                 key={node.year}
-                className="relative flex-none flex flex-col items-start justify-center px-16"
-                style={{ width: "87.5vw" }}
+                className="relative flex-none h-full"
+                style={{ width: "85vw" }}
               >
-                {/* Year pill */}
-                <div
-                  className="mb-6 px-3 py-1 rounded-full"
-                  style={{
-                    background: "rgba(255,255,255,0.15)",
-                    backdropFilter: "blur(8px)",
-                    WebkitBackdropFilter: "blur(8px)",
-                    border: "1px solid rgba(255,255,255,0.25)",
-                  }}
-                >
-                  <span
-                    className="font-mono text-slate-700 uppercase tracking-widest"
-                    style={{ fontSize: "11px" }}
-                  >
-                    {node.year}
-                  </span>
-                </div>
-
                 {/* Dot on line */}
                 <div
-                  className="absolute left-16 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-slate-700"
-                  style={{ marginTop: "-1px" }}
+                  className="absolute left-16 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-slate-800"
                 />
 
-                {/* Headline */}
-                <h3
-                  className="font-serif text-slate-900 leading-tight mb-4"
-                  style={{ fontSize: "clamp(32px, 4vw, 48px)" }}
+                {/* Content placed alternating ABOVE or BELOW the line */}
+                <div 
+                  className={`absolute left-16 flex flex-col items-start pr-16 max-w-2xl ${
+                    i % 2 === 0 
+                      ? "top-1/2 -translate-y-full pb-10" 
+                      : "top-1/2 pt-10"
+                  }`}
                 >
-                  {node.headline}
-                </h3>
+                  {/* Year pill */}
+                  <div
+                    className="mb-5 px-4 py-1.5 rounded-full"
+                    style={{
+                      background: "rgba(255,255,255,0.4)",
+                      backdropFilter: "saturate(180%) blur(20px)",
+                      WebkitBackdropFilter: "saturate(180%) blur(20px)",
+                      border: "1px solid rgba(255,255,255,0.6)",
+                    }}
+                  >
+                    <span
+                      className="font-mono text-slate-800 uppercase tracking-widest font-semibold"
+                      style={{ fontSize: "11px" }}
+                    >
+                      {node.year}
+                    </span>
+                  </div>
 
-                {/* Description */}
-                <p
-                  className="font-sans font-light text-slate-700 leading-relaxed max-w-sm"
-                  style={{ fontSize: "clamp(14px, 1.4vw, 17px)" }}
-                >
-                  {node.description}
-                </p>
+                  {/* Headline */}
+                  <h3
+                    className="font-serif text-slate-900 leading-tight mb-4"
+                    style={{ fontSize: "clamp(32px, 4vw, 48px)" }}
+                  >
+                    {node.headline}
+                  </h3>
+
+                  {/* Description */}
+                  <p
+                    className="font-sans font-light text-slate-700 leading-relaxed max-w-sm"
+                    style={{ fontSize: "clamp(15px, 1.4vw, 17px)" }}
+                  >
+                    {node.description}
+                  </p>
+                </div>
               </div>
             ))}
           </motion.div>
