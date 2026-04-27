@@ -4,6 +4,7 @@ export interface Project {
   role: string
   metric: string
   highlight: string
+  colors: string[]
 }
 
 export const PROJECTS: Project[] = [
@@ -13,6 +14,7 @@ export const PROJECTS: Project[] = [
     role: "Founder & CEO",
     metric: "AI-native Data Analyst",
     highlight: "Built from 0 to early traction. Redefining how marketers trust and interact with raw data.",
+    colors: ["#0284c7", "#fb923c", "#bae6fd"],
   },
   {
     name: "Curate",
@@ -20,6 +22,7 @@ export const PROJECTS: Project[] = [
     role: "Solo Builder",
     metric: "Digital Identity",
     highlight: "Architecting personal curation spaces.",
+    colors: ["#0f172a", "#94a3b8", "#f8fafc"],
   },
   {
     name: "Al Hay",
@@ -27,6 +30,7 @@ export const PROJECTS: Project[] = [
     role: "AI Product Owner",
     metric: "300K MAU",
     highlight: "Led a Series A AI product domain at 21. Scaled users by 200%.",
+    colors: ["#06b6d4", "#3b82f6", "#a5f3fc"],
   },
   {
     name: "Imely",
@@ -34,6 +38,7 @@ export const PROJECTS: Project[] = [
     role: "AI Product Owner",
     metric: "Gen Z Companion",
     highlight: "Deploying AI empathy for Southeast Asia.",
+    colors: ["#c084fc", "#db2777", "#f3e8ff"],
   },
   {
     name: "Cosmoagents",
@@ -41,6 +46,7 @@ export const PROJECTS: Project[] = [
     role: "Solo PM",
     metric: "5 B2B Deals",
     highlight: "Built an AI lead-nurturing SaaS. From wireframes to revenue.",
+    colors: ["#1e1b4b", "#4f46e5", "#c7d2fe"],
   },
   {
     name: "VNGGames CS",
@@ -48,6 +54,7 @@ export const PROJECTS: Project[] = [
     role: "Product Owner",
     metric: "100K+ Requests/Mo",
     highlight: "Pioneered AI integration for CS, boosting AI-resolved requests by 154%.",
+    colors: ["#ea580c", "#f97316", "#ffedd5"],
   },
   {
     name: "VNG Artian",
@@ -55,6 +62,7 @@ export const PROJECTS: Project[] = [
     role: "Contributor",
     metric: "AI + Art",
     highlight: "Fusing generative AI with creative production.",
+    colors: ["#8b5cf6", "#d946ef", "#fdf4ff"],
   },
   {
     name: "Heritage Wander",
@@ -62,6 +70,7 @@ export const PROJECTS: Project[] = [
     role: "Solo Builder",
     metric: "Phygital GPS",
     highlight: "Mapping cultural heritage through spatial tech.",
+    colors: ["#65a30d", "#d97706", "#fef3c7"],
   },
   {
     name: "WeShare",
@@ -69,5 +78,6 @@ export const PROJECTS: Project[] = [
     role: "Growth",
     metric: "3,000+ Users Acquired",
     highlight: "Driving social-impact technology at scale.",
+    colors: ["#10b981", "#34d399", "#d1fae5"],
   },
 ]

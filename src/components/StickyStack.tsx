@@ -1,6 +1,6 @@
 "use client"
 import { useRef } from "react"
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion"
+import { motion, useScroll, useTransform, MotionValue, useMotionValue } from "framer-motion"
 import { PROJECTS, Project } from "@/lib/projects"
 
 const N        = PROJECTS.length   // 9 cards
@@ -100,22 +100,76 @@ function ProjectCard({ project, index, scrollYProgress }: CardProps) {
           </a>
         </div>
 
-        {/* Right — asset placeholder */}
-        <div
-          className="m-6 md:m-8 rounded-2xl flex items-center justify-center"
-          style={{
-            background:           "rgba(255,255,255,0.5)",
-            backdropFilter:       "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            border:               "1px solid rgba(255,255,255,0.6)",
-          }}
-        >
-          <span className="font-sans text-[11px] uppercase tracking-widest text-slate-500 font-medium">
-            Asset Placeholder
-          </span>
+        {/* Right — Living Aura Placeholder */}
+        <div className="m-6 md:m-8 rounded-[2rem] overflow-hidden relative flex-1">
+          <AuraPlaceholder colors={project.colors} />
         </div>
       </div>
     </motion.div>
+  )
+}
+
+function AuraPlaceholder({ colors }: { colors: string[] }) {
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = e.currentTarget.getBoundingClientRect()
+    mouseX.set(e.clientX - rect.left)
+    mouseY.set(e.clientY - rect.top)
+  }
+
+  return (
+    <div 
+      className="absolute inset-0 cursor-pointer group bg-slate-50"
+      onMouseMove={handleMouseMove}
+    >
+      {/* Base colors for the fluid mesh */}
+      <motion.div 
+        className="absolute w-[150%] h-[150%] rounded-full mix-blend-multiply blur-[60px] opacity-70"
+        style={{ background: `radial-gradient(circle, ${colors[0]}, transparent 60%)` }}
+        animate={{
+          x: ["-20%", "10%", "-20%"],
+          y: ["-20%", "10%", "-20%"],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+      />
+      <motion.div 
+        className="absolute w-[120%] h-[120%] rounded-full mix-blend-multiply blur-[60px] opacity-60"
+        style={{ background: `radial-gradient(circle, ${colors[1]}, transparent 60%)`, top: "20%", left: "40%" }}
+        animate={{
+          x: ["10%", "-20%", "10%"],
+          y: ["10%", "-10%", "10%"],
+          scale: [1, 1.2, 1],
+        }}
+        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+      />
+      <motion.div 
+        className="absolute w-[140%] h-[140%] rounded-full mix-blend-multiply blur-[60px] opacity-70"
+        style={{ background: `radial-gradient(circle, ${colors[2]}, transparent 60%)`, top: "-10%", left: "10%" }}
+        animate={{
+          x: ["-10%", "20%", "-10%"],
+          y: ["20%", "-10%", "20%"],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+      />
+
+      {/* Mouse follower orb (reacts on hover) */}
+      <motion.div 
+        className="absolute w-64 h-64 rounded-full blur-[40px] opacity-0 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none"
+        style={{
+          background: `radial-gradient(circle, ${colors[0]}, transparent 70%)`,
+          x: useTransform(mouseX, x => x - 128),
+          y: useTransform(mouseY, y => y - 128),
+        }}
+      />
+      
+      {/* Subtle glass reflection overlay to make it look embedded */}
+      <div className="absolute inset-0 border border-white/40 rounded-[2rem] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" />
+    </div>
   )
 }
 
