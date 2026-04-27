@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   title: "hungnq",
   description: "Hung Nguyen — Founder · Product Builder · AI Native. Based in HCMC, Vietnam.",
   icons: {
-    icon: "/icon.webp",
+    icon: "/icon-v2.webp",
   },
   openGraph: {
     title: "hungnq",
