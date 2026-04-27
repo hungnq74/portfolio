@@ -25,25 +25,32 @@ function ProjectCard({ project, index, scrollYProgress }: CardProps) {
   let finalScaleRange: number[]
   let finalOpacityRange: number[]
 
+  const PLATEAU = SEG * 0.15 // 15% of the segment is a flat "perfectly active" zone
+
   if (index === 0) {
-    // First card: starts active at 0 progress
-    finalInputRange = [0, SEG]
-    finalScaleRange = [1, 0.85]
-    finalOpacityRange = [1, 0.4]
+    // First card: starts active at 0 progress and holds for PLATEAU
+    finalInputRange = [0, PLATEAU, SEG]
+    finalScaleRange = [1, 1, 0.85]
+    finalOpacityRange = [1, 1, 0.4]
   } else if (index === N - 1) {
-    // Last card: ends active at 1 progress
-    finalInputRange = [1 - SEG, 1]
-    finalScaleRange = [0.85, 1]
-    finalOpacityRange = [0.4, 1]
+    // Last card: holds active for PLATEAU before the end
+    finalInputRange = [1 - SEG, 1 - PLATEAU, 1]
+    finalScaleRange = [0.85, 1, 1]
+    finalOpacityRange = [0.4, 1, 1]
   } else {
-    // Middle cards: active when scroll position matches their index
-    finalInputRange = [centerAt - SEG, centerAt, centerAt + SEG]
-    finalScaleRange = [0.85, 1, 0.85]
-    finalOpacityRange = [0.4, 1, 0.4]
+    // Middle cards: active plateau in the center
+    finalInputRange = [
+      centerAt - SEG,
+      centerAt - PLATEAU,
+      centerAt + PLATEAU,
+      centerAt + SEG,
+    ]
+    finalScaleRange = [0.85, 1, 1, 0.85]
+    finalOpacityRange = [0.4, 1, 1, 0.4]
   }
   
   const scale   = useTransform(scrollYProgress, finalInputRange, finalScaleRange)
-  const opacity = useTransform(scrollYProgress, finalInputRange, finalOpacityRange)
+  // Removed opacity animation to fix WebKit rendering bugs and match authentic Apple horizontal carousels
 
   return (
     <motion.div
@@ -52,11 +59,11 @@ function ProjectCard({ project, index, scrollYProgress }: CardProps) {
         width:                `${CARD_VW}vw`,
         height:               "70vh",
         scale,
-        opacity,
-        background:           "rgba(255,255,255,0.1)",
-        backdropFilter:       "blur(32px)",
-        WebkitBackdropFilter: "blur(32px)",
-        border:               "1px solid rgba(255,255,255,0.22)",
+        willChange:           "transform",
+        background:           "rgba(255,255,255,0.4)",
+        backdropFilter:       "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        border:               "1px solid rgba(255,255,255,0.6)",
         borderRadius:         "2.5rem",
         boxShadow:            "0 25px 50px -12px rgba(0,0,0,0.15)",
         overflow:             "hidden",
@@ -67,7 +74,7 @@ function ProjectCard({ project, index, scrollYProgress }: CardProps) {
         {/* Left — copy */}
         <div className="flex flex-col justify-between px-10 py-10 md:px-14 md:py-12">
           <div className="flex flex-col gap-4">
-            <p className="font-sans text-[11px] uppercase tracking-widest text-slate-500">
+            <p className="font-sans text-[11px] uppercase tracking-widest text-slate-600 font-medium">
               {project.role} · {project.metric}
             </p>
             <h2
@@ -77,8 +84,8 @@ function ProjectCard({ project, index, scrollYProgress }: CardProps) {
               {project.name}
             </h2>
             <p
-              className="font-sans font-light text-slate-700 leading-relaxed max-w-sm"
-              style={{ fontSize: "clamp(15px, 1.5vw, 18px)" }}
+              className="font-sans text-slate-800 leading-relaxed max-w-sm"
+              style={{ fontSize: "clamp(15px, 1.5vw, 18px)", fontWeight: 400 }}
             >
               {project.highlight}
             </p>
@@ -97,13 +104,13 @@ function ProjectCard({ project, index, scrollYProgress }: CardProps) {
         <div
           className="m-6 md:m-8 rounded-2xl flex items-center justify-center"
           style={{
-            background:           "rgba(255,255,255,0.18)",
-            backdropFilter:       "blur(8px)",
-            WebkitBackdropFilter: "blur(8px)",
-            border:               "1px solid rgba(255,255,255,0.3)",
+            background:           "rgba(255,255,255,0.5)",
+            backdropFilter:       "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            border:               "1px solid rgba(255,255,255,0.6)",
           }}
         >
-          <span className="font-sans text-[11px] uppercase tracking-widest text-slate-400">
+          <span className="font-sans text-[11px] uppercase tracking-widest text-slate-500 font-medium">
             Asset Placeholder
           </span>
         </div>
@@ -119,16 +126,30 @@ function DotNav({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
       {PROJECTS.map((_, i) => {
         const SEG      = 1 / (N - 1)
         const centerAt = i * SEG
-        const opacity  = useTransform(
-          scrollYProgress,
-          [Math.max(0, centerAt - SEG * 0.5), centerAt, Math.min(1, centerAt + SEG * 0.5)],
-          [0.3, 1, 0.3],
-        )
-        const width = useTransform(
-          scrollYProgress,
-          [Math.max(0, centerAt - SEG * 0.5), centerAt, Math.min(1, centerAt + SEG * 0.5)],
-          [6, 24, 6],
-        )
+        const PLATEAU = SEG * 0.15
+        let dotInputRange: number[]
+        if (i === 0) {
+          dotInputRange = [0, PLATEAU, SEG * 0.5]
+        } else if (i === N - 1) {
+          dotInputRange = [1 - SEG * 0.5, 1 - PLATEAU, 1]
+        } else {
+          dotInputRange = [
+            centerAt - SEG * 0.5,
+            centerAt - PLATEAU,
+            centerAt + PLATEAU,
+            centerAt + SEG * 0.5
+          ]
+        }
+        
+        // Define outputs that match the length of the ranges
+        const opacityRange = i === 0 || i === N - 1 ? [1, 1, 0.3] : [0.3, 1, 1, 0.3]
+        if (i === N - 1) opacityRange.reverse()
+        
+        const widthRange = i === 0 || i === N - 1 ? [24, 24, 6] : [6, 24, 24, 6]
+        if (i === N - 1) widthRange.reverse()
+
+        const opacity  = useTransform(scrollYProgress, dotInputRange, opacityRange)
+        const width = useTransform(scrollYProgress, dotInputRange, widthRange)
         return (
           <motion.div
             key={i}

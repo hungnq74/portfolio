@@ -11,7 +11,7 @@ export function Hero() {
   })
 
   // Scale up like a portal, fade out before fully exiting
-  const scale   = useTransform(scrollYProgress, [0, 1], [1, 5])
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 5])
   const opacity = useTransform(scrollYProgress, [0, 0.65], [1, 0])
 
   return (
@@ -20,7 +20,7 @@ export function Hero() {
         <motion.div
           style={{ scale, opacity }}
           className="max-w-2xl text-center"
-          // pill card
+        // pill card
         >
           <div
             className="px-10 py-10 rounded-[2rem] shadow-2xl"
@@ -35,15 +35,15 @@ export function Hero() {
               className="font-serif text-slate-900 leading-[1.05] mb-5"
               style={{ fontSize: "clamp(40px, 6vw, 72px)" }}
             >
-              Nguyen Quang Hung.
+              Hung Nguyen.
             </h1>
             <p
               className="font-sans font-light text-slate-700 leading-relaxed"
               style={{ fontSize: "clamp(16px, 2vw, 20px)" }}
             >
-              Rooted in HCMC.
+              22 | building stuffs
               <br />
-              Architecting for the world.
+              architecting the world
             </p>
           </div>
         </motion.div>

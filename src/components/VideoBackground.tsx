@@ -6,13 +6,11 @@ export function VideoBackground() {
         muted
         loop
         playsInline
-        poster="/assets/hero/landscape-bg.jpg"
         className="w-full h-full object-cover"
       >
         <source src="/assets/hero/landscape-bg.mp4" type="video/mp4" />
       </video>
-      {/* Thin white wash — lifts video brightness so dark glass text is legible */}
-      <div className="absolute inset-0 bg-white/10" />
+      {/* Removed thin white wash to make everything look more vibrant */}
     </div>
   )
 }
