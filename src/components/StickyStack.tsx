@@ -19,18 +19,31 @@ interface CardProps {
 function ProjectCard({ project, index, scrollYProgress }: CardProps) {
   const SEG       = 1 / (N - 1)
   const centerAt  = index * SEG
+  // Define clean ranges for the first, last, and middle cards
+  // This avoids negative offsets and duplicates that crash the Web Animations API
+  let finalInputRange: number[]
+  let finalScaleRange: number[]
+  let finalOpacityRange: number[]
 
-  // Card feels "active" (full size, full opacity) when it's in the centre slot.
-  // Off-centre cards scale down and fade gently.
-  const inputRange = [
-    Math.max(0, centerAt - SEG),
-    centerAt,
-    Math.min(1, centerAt + SEG),
-  ]
+  if (index === 0) {
+    // First card: starts active at 0 progress
+    finalInputRange = [0, SEG]
+    finalScaleRange = [1, 0.85]
+    finalOpacityRange = [1, 0.4]
+  } else if (index === N - 1) {
+    // Last card: ends active at 1 progress
+    finalInputRange = [1 - SEG, 1]
+    finalScaleRange = [0.85, 1]
+    finalOpacityRange = [0.4, 1]
+  } else {
+    // Middle cards: active when scroll position matches their index
+    finalInputRange = [centerAt - SEG, centerAt, centerAt + SEG]
+    finalScaleRange = [0.85, 1, 0.85]
+    finalOpacityRange = [0.4, 1, 0.4]
+  }
   
-  // Make the unfocused cards slightly more visible than 0.55 to avoid them looking too blurry
-  const scale   = useTransform(scrollYProgress, inputRange, [0.85, 1, 0.85])
-  const opacity = useTransform(scrollYProgress, inputRange, [0.4, 1, 0.4])
+  const scale   = useTransform(scrollYProgress, finalInputRange, finalScaleRange)
+  const opacity = useTransform(scrollYProgress, finalInputRange, finalOpacityRange)
 
   return (
     <motion.div
@@ -154,7 +167,7 @@ export function StickyStack() {
   )
 
   return (
-    <div ref={ref} style={{ height: `${N * 100}vh` }}>
+    <div ref={ref} style={{ height: `${N * 100}vh`, marginTop: "50vh" }}>
       {/* 
         h-screen + sticky top-0 ensures the container locks to the screen 
         for the entire duration of the scrolling.
