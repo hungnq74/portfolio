@@ -21,6 +21,9 @@ const geist = localFont({
 export const metadata: Metadata = {
   title: "hungnq",
   description: "Hung Nguyen — Founder · Product Builder · AI Native. Based in HCMC, Vietnam.",
+  icons: {
+    icon: "/icon.webp",
+  },
   openGraph: {
     title: "hungnq",
     description: "Founder · Product Builder · AI Native · HCMC, Vietnam.",
