@@ -19,10 +19,10 @@ const geist = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "Hung build. Hung will rule the world.",
+  title: "hungnq",
   description: "Hung Nguyen — Founder · Product Builder · AI Native. Based in HCMC, Vietnam.",
   openGraph: {
-    title: "Hung build. Hung will rule the world.",
+    title: "hungnq",
     description: "Founder · Product Builder · AI Native · HCMC, Vietnam.",
     type: "website",
   },
