@@ -57,7 +57,7 @@ export const PROJECTS: Project[] = [
     colors: ["#ea580c", "#f97316", "#ffedd5"],
   },
   {
-    name: "VNG Artian",
+    name: "VNGGames Artian",
     url: "https://vng.com.vn/news/technology/vnggames-ket-hop-cong-nghe-va-nghe-thuat-trong-ky-nguyen-ai-4064.html",
     role: "Contributor",
     metric: "AI + Art",
