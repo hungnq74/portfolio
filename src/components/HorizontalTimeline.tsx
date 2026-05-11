@@ -29,6 +29,11 @@ const NODES = [
   },
 ]
 
+const INTRO_WIDTH_VW = 100
+const NODE_WIDTH_VW = 100
+const TRACK_WIDTH_VW = INTRO_WIDTH_VW + NODES.length * NODE_WIDTH_VW
+const SCROLL_DISTANCE_VW = NODES.length * NODE_WIDTH_VW
+
 export function HorizontalTimeline() {
   const ref = useRef<HTMLDivElement>(null)
 
@@ -37,24 +42,26 @@ export function HorizontalTimeline() {
     offset: ["start start", "end end"],
   })
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0vw", "-350vw"])
+  const x = useTransform(scrollYProgress, [0, 1], ["0vw", `-${SCROLL_DISTANCE_VW}vw`])
+  const lineTop = "calc(50% + clamp(150px, 18vh, 190px))"
 
   return (
-    <div ref={ref} style={{ height: "400vh" }}>
+    <div ref={ref} style={{ height: `${NODES.length + 1}00vh` }}>
       <div className="sticky top-0 h-screen overflow-hidden">
         {/* Horizontal strip */}
         <div className="absolute inset-0 flex items-center">
           <motion.div
-            style={{ x, width: "440vw" }}
+            style={{ x, width: `${TRACK_WIDTH_VW}vw` }}
             className="flex items-center h-full"
           >
             {/* Connecting line — start after the first 100vw so it doesn't cross the intro text */}
             <div
-              className="absolute top-1/2 -translate-y-1/2 h-[1px]"
+              className="absolute -translate-y-1/2 h-[1px]"
               style={{
-                width: "340vw",
+                top: lineTop,
+                width: `${SCROLL_DISTANCE_VW}vw`,
                 background: "rgba(15,23,42,0.15)",
-                left: "100vw",
+                left: `${INTRO_WIDTH_VW}vw`,
               }}
             />
 
@@ -71,58 +78,71 @@ export function HorizontalTimeline() {
             </div>
 
             {/* Milestone nodes (Slides 2-5) */}
-            {NODES.map((node, i) => (
+            {NODES.map((node) => (
               <div
                 key={node.year}
                 className="relative flex-none h-full"
-                style={{ width: "85vw" }}
+                style={{ width: `${NODE_WIDTH_VW}vw` }}
               >
                 {/* Dot on line */}
                 <div
-                  className="absolute left-16 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-slate-800"
+                  className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-slate-800 shadow-[0_0_0_6px_rgba(255,255,255,0.28)]"
+                  style={{ top: lineTop }}
                 />
 
-                {/* Content placed alternating ABOVE or BELOW the line */}
-                <div 
-                  className={`absolute left-16 flex flex-col items-start pr-16 max-w-2xl ${
-                    i % 2 === 0 
-                      ? "top-1/2 -translate-y-full pb-10" 
-                      : "top-1/2 pt-10"
-                  }`}
+                {/* Frosted milestone panel */}
+                <div
+                  className="absolute left-1/2 top-1/2 w-[calc(100vw-48px)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[2rem] px-7 py-7 shadow-2xl md:w-[min(520px,42vw)] md:px-9 md:py-8"
+                  style={{
+                    background: "rgba(255,255,255,0.54)",
+                    backdropFilter: "saturate(180%) blur(24px)",
+                    WebkitBackdropFilter: "saturate(180%) blur(24px)",
+                    border: "1px solid rgba(255,255,255,0.68)",
+                    boxShadow: "0 25px 50px -12px rgba(15,23,42,0.22)",
+                  }}
                 >
-                  {/* Year pill */}
                   <div
-                    className="mb-5 px-4 py-1.5 rounded-full"
+                    className="absolute inset-0 pointer-events-none"
                     style={{
-                      background: "rgba(255,255,255,0.4)",
-                      backdropFilter: "saturate(180%) blur(20px)",
-                      WebkitBackdropFilter: "saturate(180%) blur(20px)",
-                      border: "1px solid rgba(255,255,255,0.6)",
+                      background:
+                        "linear-gradient(135deg, rgba(255,255,255,0.48), rgba(255,255,255,0.18) 45%, rgba(255,255,255,0.08))",
                     }}
-                  >
-                    <span
-                      className="font-mono text-slate-800 uppercase tracking-widest font-semibold"
-                      style={{ fontSize: "11px" }}
+                  />
+                  <div className="relative z-10 flex flex-col items-start">
+                    {/* Year pill */}
+                    <div
+                      className="mb-5 px-4 py-1.5 rounded-full"
+                      style={{
+                        background: "rgba(255,255,255,0.56)",
+                        backdropFilter: "saturate(180%) blur(16px)",
+                        WebkitBackdropFilter: "saturate(180%) blur(16px)",
+                        border: "1px solid rgba(255,255,255,0.72)",
+                      }}
                     >
-                      {node.year}
-                    </span>
+                      <span
+                        className="font-mono text-slate-800 uppercase tracking-widest font-semibold"
+                        style={{ fontSize: "11px" }}
+                      >
+                        {node.year}
+                      </span>
+                    </div>
+
+                    {/* Headline */}
+                    <h3
+                      className="font-serif text-slate-900 leading-[1.05] mb-4 max-w-[11ch]"
+                      style={{ fontSize: "clamp(34px, 4vw, 48px)" }}
+                    >
+                      {node.headline}
+                    </h3>
+
+                    {/* Description */}
+                    <p
+                      className="font-sans text-slate-800 leading-relaxed max-w-sm"
+                      style={{ fontSize: "clamp(16px, 1.4vw, 18px)", fontWeight: 400 }}
+                    >
+                      {node.description}
+                    </p>
                   </div>
-
-                  {/* Headline */}
-                  <h3
-                    className="font-serif text-slate-900 leading-tight mb-4"
-                    style={{ fontSize: "clamp(32px, 4vw, 48px)" }}
-                  >
-                    {node.headline}
-                  </h3>
-
-                  {/* Description */}
-                  <p
-                    className="font-sans font-light text-slate-700 leading-relaxed max-w-sm"
-                    style={{ fontSize: "clamp(15px, 1.4vw, 17px)" }}
-                  >
-                    {node.description}
-                  </p>
                 </div>
               </div>
             ))}
