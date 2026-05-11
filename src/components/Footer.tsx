@@ -2,24 +2,33 @@ export function Footer() {
   return (
     <footer className="min-h-screen flex items-center justify-center px-6 py-24">
       <div
-        className="w-full max-w-2xl rounded-3xl p-12 md:p-16 text-center"
+        className="relative w-full max-w-2xl overflow-hidden rounded-3xl p-12 text-center shadow-2xl md:p-16"
         style={{
-          background: "rgba(255,255,255,0.1)",
-          backdropFilter: "blur(32px)",
-          WebkitBackdropFilter: "blur(32px)",
-          border: "1px solid rgba(255,255,255,0.2)",
-          boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)",
+          background: "rgba(255,255,255,0.58)",
+          backdropFilter: "saturate(180%) blur(28px)",
+          WebkitBackdropFilter: "saturate(180%) blur(28px)",
+          border: "1px solid rgba(255,255,255,0.72)",
+          boxShadow: "0 25px 50px -12px rgba(15,23,42,0.22)",
         }}
       >
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(255,255,255,0.54), rgba(255,255,255,0.24) 48%, rgba(255,255,255,0.12))",
+          }}
+        />
+
+        <div className="relative z-10">
         <p
-          className="font-sans font-light text-slate-700 leading-relaxed mb-8"
-          style={{ fontSize: "clamp(15px, 1.6vw, 18px)" }}
+          className="font-sans text-slate-800 leading-relaxed mb-8 mx-auto max-w-md"
+          style={{ fontSize: "clamp(16px, 1.6vw, 18px)", fontWeight: 400 }}
         >
           Operating at the intersection of product intuition and AI deployment.
         </p>
 
         <p
-          className="font-serif italic text-slate-900 leading-tight mb-12"
+          className="font-serif italic text-slate-950 leading-tight mb-12"
           style={{ fontSize: "clamp(36px, 5vw, 56px)" }}
         >
           Let&apos;s build.
@@ -36,25 +45,19 @@ export function Footer() {
               href={link.href}
               target={link.href.startsWith("mailto") ? undefined : "_blank"}
               rel={link.href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-              className="px-5 py-2 rounded-full font-sans text-sm text-slate-700 hover:text-slate-900 transition-all duration-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+              className="px-5 py-2 rounded-full font-sans text-sm font-medium text-slate-800 hover:text-slate-950 transition-all duration-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.45)]"
               style={{
-                background: "rgba(255,255,255,0.12)",
-                backdropFilter: "blur(8px)",
-                WebkitBackdropFilter: "blur(8px)",
-                border: "1px solid rgba(255,255,255,0.25)",
+                background: "rgba(255,255,255,0.58)",
+                backdropFilter: "saturate(180%) blur(12px)",
+                WebkitBackdropFilter: "saturate(180%) blur(12px)",
+                border: "1px solid rgba(255,255,255,0.78)",
               }}
             >
               {link.label}
             </a>
           ))}
         </div>
-
-        <p
-          className="font-sans uppercase tracking-widest text-slate-400"
-          style={{ fontSize: "11px", opacity: 0.5 }}
-        >
-          HCMC · Vietnam · 2025
-        </p>
+        </div>
       </div>
     </footer>
   )
