@@ -5,6 +5,10 @@ export interface Project {
   metric: string
   highlight: string
   colors: string[]
+  visual: {
+    lens: "drop" | "petal" | "leaf" | "heart" | "orbit" | "ripple" | "blossom" | "terrain" | "network"
+    accent: string
+  }
 }
 
 export const PROJECTS: Project[] = [
@@ -15,6 +19,7 @@ export const PROJECTS: Project[] = [
     metric: "AI-native Data Analyst",
     highlight: "Built from 0 to early traction. Redefining how marketers trust and interact with raw data.",
     colors: ["#0284c7", "#fb923c", "#bae6fd"],
+    visual: { lens: "drop", accent: "#0ea5e9" },
   },
   {
     name: "Curate",
@@ -23,14 +28,16 @@ export const PROJECTS: Project[] = [
     metric: "Digital Identity",
     highlight: "Architecting personal curation spaces.",
     colors: ["#0f172a", "#94a3b8", "#f8fafc"],
+    visual: { lens: "petal", accent: "#7aa6c2" },
   },
   {
-    name: "Al Hay",
+    name: "AI Hay",
     url: "https://ai-hay.vn/",
     role: "AI Product Owner",
     metric: "300K MAU",
     highlight: "Led a Series A AI product domain at 21. Scaled users by 200%.",
     colors: ["#06b6d4", "#3b82f6", "#a5f3fc"],
+    visual: { lens: "leaf", accent: "#22d3ee" },
   },
   {
     name: "Imely",
@@ -39,6 +46,7 @@ export const PROJECTS: Project[] = [
     metric: "Gen Z Companion",
     highlight: "Deploying AI empathy for Southeast Asia.",
     colors: ["#c084fc", "#db2777", "#f3e8ff"],
+    visual: { lens: "heart", accent: "#f0a6ca" },
   },
   {
     name: "Cosmoagents",
@@ -47,6 +55,7 @@ export const PROJECTS: Project[] = [
     metric: "5 B2B Deals",
     highlight: "Built an AI lead-nurturing SaaS. From wireframes to revenue.",
     colors: ["#1e1b4b", "#4f46e5", "#c7d2fe"],
+    visual: { lens: "orbit", accent: "#818cf8" },
   },
   {
     name: "VNGGames CS",
@@ -55,6 +64,7 @@ export const PROJECTS: Project[] = [
     metric: "100K+ Requests/Mo",
     highlight: "Pioneered AI integration for CS, boosting AI-resolved requests by 154%.",
     colors: ["#ea580c", "#f97316", "#ffedd5"],
+    visual: { lens: "ripple", accent: "#f59e0b" },
   },
   {
     name: "VNGGames Artian",
@@ -63,6 +73,7 @@ export const PROJECTS: Project[] = [
     metric: "AI + Art",
     highlight: "Fusing generative AI with creative production.",
     colors: ["#8b5cf6", "#d946ef", "#fdf4ff"],
+    visual: { lens: "blossom", accent: "#a78bfa" },
   },
   {
     name: "Heritage Wander",
@@ -71,6 +82,7 @@ export const PROJECTS: Project[] = [
     metric: "Phygital GPS",
     highlight: "Mapping cultural heritage through spatial tech.",
     colors: ["#65a30d", "#d97706", "#fef3c7"],
+    visual: { lens: "terrain", accent: "#84cc16" },
   },
   {
     name: "WeShare",
@@ -79,5 +91,6 @@ export const PROJECTS: Project[] = [
     metric: "3,000+ Users Acquired",
     highlight: "Driving social-impact technology at scale.",
     colors: ["#10b981", "#34d399", "#d1fae5"],
+    visual: { lens: "network", accent: "#2dd4bf" },
   },
 ]
