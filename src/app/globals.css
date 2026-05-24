@@ -3,6 +3,29 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --scroll-viewport: 100vh;
+    --scroll-viewport-half: 50vh;
+    --project-card-height: clamp(500px, 76vh, 560px);
+    --timeline-card-min-height: clamp(500px, 78vh, 620px);
+  }
+
+  @supports (height: 100svh) {
+    :root {
+      --scroll-viewport: 100svh;
+      --scroll-viewport-half: 50svh;
+      --project-card-height: clamp(500px, 76svh, 560px);
+      --timeline-card-min-height: clamp(500px, 78svh, 620px);
+    }
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --project-card-height: 70vh;
+      --timeline-card-min-height: clamp(540px, 66vh, 650px);
+    }
+  }
+
   *, *::before, *::after {
     box-sizing: border-box;
   }

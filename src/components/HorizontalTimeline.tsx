@@ -40,6 +40,7 @@ const STORY_STEPS = [
     links: [{ label: "dreamify.dev", href: "https://dreamify.dev/" }],
   },
 ]
+const SECTION_HEIGHT = Array.from({ length: 5 }, () => "var(--scroll-viewport)").join(" + ")
 
 type StoryStep = (typeof STORY_STEPS)[number]
 
@@ -318,12 +319,18 @@ export function HorizontalTimeline() {
   }
 
   return (
-    <section ref={ref} className="relative" style={{ height: "500vh" }}>
-      <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden px-4 py-8">
+    <section
+      ref={ref}
+      className="relative"
+      style={{ height: `calc(${SECTION_HEIGHT})` }}
+    >
+      <div
+        className="sticky top-0 flex items-center justify-center overflow-hidden px-4 py-4 md:py-8"
+        style={{ height: "var(--scroll-viewport)" }}
+      >
         <div
-          className="relative w-[calc(100vw-32px)] max-w-[860px] overflow-hidden rounded-[2rem] px-7 py-8 shadow-2xl md:px-12 md:py-11"
+          className="relative min-h-[var(--timeline-card-min-height)] w-[calc(100vw-32px)] max-w-[860px] overflow-hidden rounded-[2rem] px-6 py-7 shadow-2xl md:px-12 md:py-11"
           style={{
-            minHeight: "clamp(540px, 66vh, 650px)",
             background: "rgba(255,255,255,0.56)",
             backdropFilter: "saturate(180%) blur(28px)",
             WebkitBackdropFilter: "saturate(180%) blur(28px)",

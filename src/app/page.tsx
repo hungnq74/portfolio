@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <VideoBackground />
-      <main>
+      <main className="overflow-x-clip">
         <Hero />
         <StickyStack />
         <HorizontalTimeline />

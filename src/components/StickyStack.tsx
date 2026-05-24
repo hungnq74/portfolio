@@ -16,6 +16,7 @@ const GAP_VW   = 5                 // gap between cards: 5vw
 const STEP_VW  = CARD_VW + GAP_VW // 85vw per step
 const START_X  = (100 - CARD_VW) / 2          // 10vw — centers first card
 const END_X    = START_X - (N - 1) * STEP_VW  // centers last card
+const SECTION_HEIGHT = Array.from({ length: N }, () => "var(--scroll-viewport)").join(" + ")
 
 interface CardProps {
   project: Project
@@ -61,7 +62,7 @@ function ProjectCard({ project, index, scrollYProgress }: CardProps) {
 
   return (
     <motion.div
-      className="h-[clamp(560px,70vh,760px)] md:h-[70vh]"
+      className="h-[var(--project-card-height)]"
       style={{
         flexShrink:           0,
         width:                `${CARD_VW}vw`,
@@ -79,7 +80,7 @@ function ProjectCard({ project, index, scrollYProgress }: CardProps) {
     >
       <div className="grid h-full grid-rows-[1fr_auto] md:grid-cols-2 md:grid-rows-1">
         {/* Left — copy */}
-        <div className="flex min-h-0 flex-col justify-between px-8 py-8 md:px-14 md:py-12">
+        <div className="flex min-h-0 flex-col justify-between px-6 py-6 md:px-14 md:py-12">
           <div className="flex flex-col gap-4">
             <p className="font-sans text-[11px] uppercase tracking-widest text-slate-600 font-medium">
               {project.role} · {project.metric}
@@ -108,7 +109,7 @@ function ProjectCard({ project, index, scrollYProgress }: CardProps) {
         </div>
 
         {/* Right — cursor-reactive visual artifact */}
-        <div className="relative mx-6 mb-6 aspect-[4/3] overflow-hidden rounded-[2rem] md:m-8 md:aspect-auto">
+        <div className="relative mx-5 mb-5 aspect-[4/3] overflow-hidden rounded-[2rem] md:m-8 md:aspect-auto">
           <ProjectVisual project={project} />
         </div>
       </div>
@@ -267,8 +268,8 @@ function ProjectVisual({ project }: { project: Project }) {
   const accent = project.visual.accent
   const preset = LENS_PRESETS[project.visual.lens]
   const safeId = project.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")
-  const mouseX = useMotionValue(9999)
-  const mouseY = useMotionValue(9999)
+  const mouseX = useMotionValue(112)
+  const mouseY = useMotionValue(112)
   const parallaxX = useMotionValue(0)
   const parallaxY = useMotionValue(0)
   const lensOpacity = useMotionValue(0)
@@ -296,7 +297,11 @@ function ProjectVisual({ project }: { project: Project }) {
     lensOpacity.set(1)
   }
 
-  function handleMouseLeave() {
+  function handleMouseLeave(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = e.currentTarget.getBoundingClientRect()
+
+    mouseX.set(rect.width / 2)
+    mouseY.set(rect.height / 2)
     lensOpacity.set(0)
     parallaxX.set(0)
     parallaxY.set(0)
@@ -315,6 +320,7 @@ function ProjectVisual({ project }: { project: Project }) {
         `,
         backdropFilter: "blur(16px) saturate(128%)",
         WebkitBackdropFilter: "blur(16px) saturate(128%)",
+        contain: "layout paint",
       }}
     >
       <motion.div
@@ -504,41 +510,51 @@ export function StickyStack() {
   )
 
   return (
-    <div ref={ref} style={{ height: `${N * 100}vh`, marginTop: "50vh" }}>
-      {/* 
-        h-screen + sticky top-0 ensures the container locks to the screen 
-        for the entire duration of the scrolling.
-      */}
-      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center gap-8 w-full">
+    <div
+      ref={ref}
+      style={{
+        height: `calc(${SECTION_HEIGHT})`,
+        marginTop: "var(--scroll-viewport-half)",
+      }}
+    >
+      <div
+        className="sticky top-0 flex w-full flex-col justify-center overflow-hidden"
+        style={{ height: "var(--scroll-viewport)", contain: "layout paint" }}
+      >
 
-        {/* Horizontal card strip */}
-        <motion.div
-          style={{
-            x,
-            display:    "flex",
-            gap:        `${GAP_VW}vw`,
-            alignItems: "center",
-            width:      "max-content",
-            willChange: "transform",
-          }}
+        <div
+          className="relative w-full overflow-hidden"
+          style={{ height: "var(--project-card-height)", contain: "layout paint" }}
         >
-          {PROJECTS.map((project, i) => (
-            <ProjectCard
-              key={project.name}
-              project={project}
-              index={i}
-              scrollYProgress={scrollYProgress}
-            />
-          ))}
-        </motion.div>
+          {/* Horizontal card strip */}
+          <motion.div
+            className="absolute inset-y-0 left-0"
+            style={{
+              x,
+              display:    "flex",
+              gap:        `${GAP_VW}vw`,
+              alignItems: "center",
+              width:      "max-content",
+              willChange: "transform",
+            }}
+          >
+            {PROJECTS.map((project, i) => (
+              <ProjectCard
+                key={project.name}
+                project={project}
+                index={i}
+                scrollYProgress={scrollYProgress}
+              />
+            ))}
+          </motion.div>
+        </div>
 
         {/* Dot navigation */}
         <div
-          className="flex flex-col items-center gap-3 w-full"
-          style={{ position: "absolute", bottom: "2.5rem", left: "50%", transform: "translateX(-50%)" }}
+          className="mt-4 flex w-full flex-col items-center gap-2 md:absolute md:bottom-10 md:left-1/2 md:mt-0 md:-translate-x-1/2 md:gap-3"
         >
           <DotNav scrollYProgress={scrollYProgress} />
-          <p className="font-sans text-[10px] uppercase tracking-widest text-slate-400 font-medium">
+          <p className="font-sans text-[10px] uppercase tracking-widest text-slate-600 font-medium">
             scroll to explore
           </p>
         </div>

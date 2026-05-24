@@ -1,6 +1,9 @@
 export function VideoBackground() {
   return (
-    <div className="fixed inset-0 -z-10 w-screen h-screen">
+    <div
+      className="fixed inset-0 -z-10 w-screen"
+      style={{ height: "var(--scroll-viewport)" }}
+    >
       <video
         autoPlay
         muted

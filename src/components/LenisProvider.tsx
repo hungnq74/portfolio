@@ -8,25 +8,53 @@ declare global {
 
 export function LenisProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    })
+    const smoothPointer = window.matchMedia("(hover: hover) and (pointer: fine)")
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
+    let lenis: Lenis | undefined
+    let rafId: number | undefined
 
-    // Expose globally so other components can subscribe to scroll events
-    window.__lenis = lenis
+    const destroyLenis = () => {
+      if (rafId !== undefined) {
+        cancelAnimationFrame(rafId)
+        rafId = undefined
+      }
 
-    let rafId: number
-    const raf = (time: number) => {
-      lenis.raf(time)
+      lenis?.destroy()
+      lenis = undefined
+      delete window.__lenis
+    }
+
+    const syncLenis = () => {
+      if (!smoothPointer.matches || reducedMotion.matches) {
+        destroyLenis()
+        return
+      }
+
+      if (lenis) return
+
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      })
+
+      window.__lenis = lenis
+
+      const raf = (time: number) => {
+        lenis?.raf(time)
+        rafId = requestAnimationFrame(raf)
+      }
+
       rafId = requestAnimationFrame(raf)
     }
-    rafId = requestAnimationFrame(raf)
+
+    syncLenis()
+    smoothPointer.addEventListener("change", syncLenis)
+    reducedMotion.addEventListener("change", syncLenis)
 
     return () => {
-      cancelAnimationFrame(rafId)
-      lenis.destroy()
-      delete window.__lenis
+      smoothPointer.removeEventListener("change", syncLenis)
+      reducedMotion.removeEventListener("change", syncLenis)
+      destroyLenis()
     }
   }, [])
 

@@ -15,8 +15,15 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.65], [1, 0])
 
   return (
-    <section ref={ref} className="relative h-screen">
-      <div className="sticky top-0 h-screen flex items-center justify-center">
+    <section
+      ref={ref}
+      className="relative"
+      style={{ height: "var(--scroll-viewport)" }}
+    >
+      <div
+        className="sticky top-0 flex items-center justify-center"
+        style={{ height: "var(--scroll-viewport)" }}
+      >
         <motion.div
           style={{ scale, opacity }}
           className="max-w-2xl text-center"

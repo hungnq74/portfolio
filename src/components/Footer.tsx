@@ -1,6 +1,9 @@
 export function Footer() {
   return (
-    <footer className="min-h-screen flex items-center justify-center px-6 py-24">
+    <footer
+      className="flex items-center justify-center px-6 py-24"
+      style={{ minHeight: "var(--scroll-viewport)" }}
+    >
       <div
         className="relative w-full max-w-2xl overflow-hidden rounded-3xl p-12 text-center shadow-2xl md:p-16"
         style={{
