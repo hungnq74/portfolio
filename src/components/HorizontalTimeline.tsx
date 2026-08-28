@@ -56,19 +56,22 @@ function getStepMotionRanges(index: number, total: number) {
   const end = (index + 1) * segment
 
   /*
-   * The hand-off is centred on the boundary and shared by both steps: the one
-   * leaving and the one arriving run the same window in opposite directions,
-   * so their opacities always sum to one and something is always legible.
+   * The steps sit stacked in the same box, so any moment where two are both
+   * visible is read as doubled text — no opacity curve avoids that. Earlier
+   * attempts moved the crossfade around (offset windows, then mirrored ones);
+   * both still showed two titles at once, the mirrored pair most clearly of
+   * all because each sat at half opacity and perfectly sharp.
    *
-   * Offsetting those windows instead — as this did before — left both steps
-   * near a quarter opacity at the crossover, which read as two blurred copies
-   * of the text and nothing to actually look at.
+   * So the hand-off is sequential instead of crossed: the outgoing step
+   * reaches zero exactly where the incoming one leaves it, and they never
+   * overlap. The y and scale offsets carry the sense of motion through the
+   * swap.
    */
-  const handoff = segment * 0.1
+  const handoff = segment * 0.16
 
   if (index === 0) {
     return {
-      input: [0, end - handoff, end + handoff],
+      input: [0, end - handoff, end],
       opacity: [1, 1, 0],
       y: [0, 0, -18],
       scale: [1, 1, 0.97],
@@ -77,7 +80,7 @@ function getStepMotionRanges(index: number, total: number) {
 
   if (index === total - 1) {
     return {
-      input: [start - handoff, start + handoff, 1],
+      input: [start, start + handoff, 1],
       opacity: [0, 1, 1],
       y: [24, 0, 0],
       scale: [0.97, 1, 1],
@@ -85,7 +88,7 @@ function getStepMotionRanges(index: number, total: number) {
   }
 
   return {
-    input: [start - handoff, start + handoff, end - handoff, end + handoff],
+    input: [start, start + handoff, end - handoff, end],
     opacity: [0, 1, 1, 0],
     y: [24, 0, 0, -18],
     scale: [0.97, 1, 1, 0.97],
