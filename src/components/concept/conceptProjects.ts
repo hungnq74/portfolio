@@ -81,19 +81,18 @@ export const CONCEPT_FEATURED_PROJECTS = [
       "Led product development and go-to-market from zero users to meaningful consumer traction and recurring revenue.",
     proofs: [
       {
-        value: "150K",
+        value: "400K",
         label: "monthly active users",
-        qualifier: "within two months",
+        qualifier: "within 2.5 months",
       },
       {
-        value: "$4K",
-        label: "monthly recurring revenue",
-        qualifier: "within two months",
+        value: "1.5B₫",
+        label: "revenue",
+        qualifier: "first 2.5 months",
       },
       {
-        value: "5K",
-        label: "community members",
-        detail: "3K Facebook + 2K Discord",
+        value: "85%",
+        label: "day-7 retention",
       },
     ],
     artifact: {
@@ -159,8 +158,8 @@ export const CONCEPT_FEATURED_ORDER = CONCEPT_FEATURED_PROJECTS.map(
 )
 
 export const CONCEPT_HERO_PROOFS = [
-  { value: "150K", label: "Imely MAU in two months" },
-  { value: "$4K", label: "Imely MRR in two months" },
+  { value: "400K", label: "Imely MAU in 2.5 months" },
+  { value: "1.5B₫", label: "Imely revenue in 2.5 months" },
   { value: "≈28M", label: "Dreamify AI tokens consumed" },
   { value: "1,000", label: "Dreamify registered users" },
 ] as const satisfies readonly ConceptProofMetric[]
@@ -181,8 +180,8 @@ export const CONCEPT_STORY_MILESTONES = [
   {
     date: "OCT 2025 — PRESENT",
     title: "Turn product craft into traction",
-    body: "At AI Hay I led a 300K MAU domain. At Imely I led product development and GTM from zero to 150K MAU and $4K MRR within two months.",
-    signal: "300K MAU domain → 150K MAU + $4K MRR in two months",
+    body: "At AI Hay I led a 300K MAU domain. At Imely I led product development and GTM from zero to 400K MAU and 1.5B₫ revenue within 2.5 months, at 85% day-7 retention.",
+    signal: "300K MAU domain → 400K MAU + 1.5B₫ in 2.5 months",
   },
   {
     date: "NOW",

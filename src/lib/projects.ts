@@ -22,6 +22,15 @@ export const PROJECTS: Project[] = [
     visual: { lens: "drop", accent: "#0ea5e9" },
   },
   {
+    name: "Imely",
+    url: "https://imely.ai/",
+    role: "AI Product Owner",
+    metric: "Gen Z Companion",
+    highlight: "1.5B₫ revenue and 400K monthly actives in 2.5 months, holding 85% day-7 retention.",
+    colors: ["#c084fc", "#db2777", "#f3e8ff"],
+    visual: { lens: "heart", accent: "#f0a6ca" },
+  },
+  {
     name: "Curate",
     url: "https://curate-me.vercel.app/",
     role: "Solo Builder",
@@ -38,15 +47,6 @@ export const PROJECTS: Project[] = [
     highlight: "Led a Series A AI product domain at 21. Scaled users by 200%.",
     colors: ["#06b6d4", "#3b82f6", "#a5f3fc"],
     visual: { lens: "leaf", accent: "#22d3ee" },
-  },
-  {
-    name: "Imely",
-    url: "https://imely.ai/",
-    role: "AI Product Owner",
-    metric: "Gen Z Companion",
-    highlight: "Deploying AI empathy for Southeast Asia.",
-    colors: ["#c084fc", "#db2777", "#f3e8ff"],
-    visual: { lens: "heart", accent: "#f0a6ca" },
   },
   {
     name: "Cosmoagents",
