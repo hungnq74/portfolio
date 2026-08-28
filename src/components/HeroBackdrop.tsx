@@ -21,7 +21,12 @@ export function HeroBackdrop() {
   const [mode, setMode] = useState<Mode>("pending")
 
   useEffect(() => {
-    setMode(detect())
+    // Width decides both whether and how richly this renders, so it has to be
+    // re-read when the window changes rather than fixed at mount.
+    const evaluate = () => setMode(detect())
+    evaluate()
+    window.addEventListener("resize", evaluate)
+    return () => window.removeEventListener("resize", evaluate)
   }, [])
 
   if (mode === "pending" || mode === "video") return <VideoBackground />

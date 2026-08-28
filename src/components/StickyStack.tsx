@@ -1,6 +1,6 @@
 "use client"
 import dynamic from "next/dynamic"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import {
   motion,
   useMotionTemplate,
@@ -11,12 +11,12 @@ import {
   MotionValue,
 } from "framer-motion"
 import { PROJECTS, Project } from "@/lib/projects"
-import { canRender3D } from "@/lib/capability"
+import { useCan3D } from "@/lib/capability"
 
 // Nine cards are mounted at once, and each live canvas is a WebGL context the
 // browser counts against a hard limit — one that the hero backdrop is already
 // spending from. Only the card in front gets a scene.
-const ProjectOrb = dynamic(() => import("./ProjectOrb"), { ssr: false })
+const ProjectPetals = dynamic(() => import("./ProjectPetals"), { ssr: false })
 
 const N        = PROJECTS.length   // 9 cards
 const CARD_VW  = 80                // each card: 80vw wide
@@ -274,10 +274,7 @@ function LensMotif({ lens, accent }: { lens: LensKind; accent: string }) {
 }
 
 function ProjectVisual({ project, isActive }: { project: Project; isActive: boolean }) {
-  const [capable, setCapable] = useState(false)
-  useEffect(() => {
-    setCapable(canRender3D())
-  }, [])
+  const capable = useCan3D()
   const show3D = isActive && capable
 
   const accent = project.visual.accent
@@ -431,7 +428,7 @@ function ProjectVisual({ project, isActive }: { project: Project; isActive: bool
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
         >
-          <ProjectOrb lens={project.visual.lens} accent={accent} />
+          <ProjectPetals lens={project.visual.lens} accent={accent} />
         </motion.div>
       ) : null}
 

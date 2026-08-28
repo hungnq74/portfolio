@@ -1,3 +1,7 @@
+"use client"
+
+import { useEffect, useState } from "react"
+
 /**
  * Shared gate for the WebGL scenes. Kept in one place so the hero backdrop and
  * the project cards cannot drift apart on what counts as a capable device.
@@ -14,10 +18,45 @@ export function canRender3D(): boolean {
   const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory
   if (typeof memory === "number" && memory < 4) return false
 
+  return supportsWebGL()
+}
+
+/**
+ * Probing for WebGL means creating a context, and a context counts against a
+ * hard per-browser budget. Since this now runs on every resize, the answer is
+ * cached and the probe hands its context straight back.
+ */
+let webglSupport: boolean | null = null
+
+function supportsWebGL(): boolean {
+  if (webglSupport !== null) return webglSupport
+
   try {
     const probe = document.createElement("canvas")
-    return Boolean(probe.getContext("webgl2") || probe.getContext("webgl"))
+    const context = probe.getContext("webgl2") || probe.getContext("webgl")
+    context?.getExtension("WEBGL_lose_context")?.loseContext()
+    webglSupport = Boolean(context)
   } catch {
-    return false
+    webglSupport = false
   }
+
+  return webglSupport
+}
+
+/**
+ * The verdict depends on viewport width, so it cannot be decided once at mount:
+ * a window that opens narrow and is widened afterwards would stay on the
+ * fallback forever. Re-checking on resize keeps the answer honest.
+ */
+export function useCan3D(): boolean {
+  const [able, setAble] = useState(false)
+
+  useEffect(() => {
+    const evaluate = () => setAble(canRender3D())
+    evaluate()
+    window.addEventListener("resize", evaluate)
+    return () => window.removeEventListener("resize", evaluate)
+  }, [])
+
+  return able
 }
