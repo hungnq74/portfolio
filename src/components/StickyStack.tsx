@@ -13,10 +13,11 @@ import {
 import { PROJECTS, Project } from "@/lib/projects"
 import { useCan3D } from "@/lib/capability"
 
-// Nine cards are mounted at once, and each live canvas is a WebGL context the
-// browser counts against a hard limit — one that the hero backdrop is already
-// spending from. Only the card in front gets a scene.
-const ProjectPetals = dynamic(() => import("./ProjectPetals"), { ssr: false })
+// Each card owns a distinct scene, but a live canvas holds a WebGL context and
+// the browser caps how many exist. Mounting the card in front plus its
+// neighbours keeps the next scene warm without spending the whole budget.
+const CardScene = dynamic(() => import("./CardScene"), { ssr: false })
+const NEIGHBOURS = 1
 
 const N        = PROJECTS.length   // 9 cards
 const CARD_VW  = 80                // each card: 80vw wide
@@ -31,9 +32,10 @@ interface CardProps {
   index: number
   scrollYProgress: MotionValue<number>
   isActive: boolean
+  isNear: boolean
 }
 
-function ProjectCard({ project, index, scrollYProgress, isActive }: CardProps) {
+function ProjectCard({ project, index, scrollYProgress, isActive, isNear }: CardProps) {
   const SEG       = 1 / (N - 1)
   const centerAt  = index * SEG
   // Define clean ranges for the first, last, and middle cards
@@ -119,7 +121,7 @@ function ProjectCard({ project, index, scrollYProgress, isActive }: CardProps) {
 
         {/* Right — cursor-reactive visual artifact */}
         <div className="relative mx-5 mb-5 aspect-[4/3] overflow-hidden rounded-[2rem] md:m-8 md:aspect-auto">
-          <ProjectVisual project={project} isActive={isActive} />
+          <ProjectVisual project={project} isActive={isActive} isNear={isNear} />
         </div>
       </div>
     </motion.div>
@@ -273,9 +275,18 @@ function LensMotif({ lens, accent }: { lens: LensKind; accent: string }) {
   )
 }
 
-function ProjectVisual({ project, isActive }: { project: Project; isActive: boolean }) {
+function ProjectVisual({
+  project,
+  isActive,
+  isNear,
+}: {
+  project: Project
+  isActive: boolean
+  isNear: boolean
+}) {
   const capable = useCan3D()
-  const show3D = isActive && capable
+  // Mounted early so it is ready on arrival; only the front card renders frames.
+  const show3D = capable && isNear
 
   const accent = project.visual.accent
   const preset = LENS_PRESETS[project.visual.lens]
@@ -428,7 +439,7 @@ function ProjectVisual({ project, isActive }: { project: Project; isActive: bool
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
         >
-          <ProjectPetals lens={project.visual.lens} accent={accent} />
+          <CardScene lens={project.visual.lens} accent={accent} visible={isActive} />
         </motion.div>
       ) : null}
 
@@ -580,6 +591,7 @@ export function StickyStack() {
                 index={i}
                 scrollYProgress={scrollYProgress}
                 isActive={i === activeIndex}
+                isNear={Math.abs(i - activeIndex) <= NEIGHBOURS}
               />
             ))}
           </motion.div>
