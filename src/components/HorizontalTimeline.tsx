@@ -1,6 +1,13 @@
 "use client"
 import { useRef, useState } from "react"
-import { motion, useMotionValueEvent, useScroll } from "framer-motion"
+import {
+  motion,
+  useMotionTemplate,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from "framer-motion"
 import { useReducedMotion } from "@/hooks/useReducedMotion"
 
 const STORY_STEPS = [
@@ -82,6 +89,14 @@ function getStepMotionRanges(index: number, total: number) {
   }
 }
 
+function monotonic(input: number[]) {
+  const rising = [...input]
+  for (let i = 1; i < rising.length; i += 1) {
+    if (rising[i] <= rising[i - 1]) rising[i] = rising[i - 1] + 0.0001
+  }
+  return rising
+}
+
 function interpolate(input: number[], output: number[], value: number) {
   if (value <= input[0]) return output[0]
   if (value >= input[input.length - 1]) return output[output.length - 1]
@@ -99,16 +114,6 @@ function interpolate(input: number[], output: number[], value: number) {
   return output[output.length - 1]
 }
 
-function getStepMotionStyle(index: number, total: number, progress: number) {
-  const ranges = getStepMotionRanges(index, total)
-  const blurValues = ranges.blur.map((value) => Number(value.match(/\d+/)?.[0] ?? 0))
-
-  return {
-    opacity: interpolate(ranges.input, ranges.opacity, progress),
-    y: interpolate(ranges.input, ranges.y, progress),
-    filter: `blur(${interpolate(ranges.input, blurValues, progress)}px)`,
-  }
-}
 
 function StoryContent({ step }: { step: StoryStep }) {
   return (
@@ -167,19 +172,21 @@ function AnimatedStoryStep({
   step,
   index,
   activeIndex,
-  progress,
+  scrollYProgress,
 }: {
   step: StoryStep
   index: number
   activeIndex: number
-  progress: number
+  scrollYProgress: MotionValue<number>
 }) {
-  const isActive = index === activeIndex
-  const { opacity, y, filter } = getStepMotionStyle(
-    index,
-    STORY_STEPS.length,
-    progress,
-  )
+  const ranges = getStepMotionRanges(index, STORY_STEPS.length)
+  const input = monotonic(ranges.input)
+  const blurs = ranges.blur.map((value) => Number(value.match(/\d+/)?.[0] ?? 0))
+
+  const opacity = useTransform(scrollYProgress, input, ranges.opacity)
+  const y = useTransform(scrollYProgress, input, ranges.y)
+  const blur = useTransform(scrollYProgress, input, blurs)
+  const filter = useMotionTemplate`blur(${blur}px)`
   const pointerEvents = index === activeIndex ? "auto" : "none"
 
   return (
@@ -212,10 +219,10 @@ function ProgressDot({
 }
 
 function ProgressRail({
-  progress,
+  scrollYProgress,
   activeIndex,
 }: {
-  progress: number
+  scrollYProgress: MotionValue<number>
   activeIndex: number
 }) {
   const nextStep = STORY_STEPS[activeIndex + 1]
@@ -248,8 +255,7 @@ function ProgressRail({
         <div className="relative h-px flex-1 overflow-hidden rounded-full bg-slate-900/15">
           <motion.div
             className="absolute inset-y-0 left-0 w-full origin-left bg-slate-900/60"
-            animate={{ scaleX: progress }}
-            transition={{ duration: 0.18, ease: "easeOut" }}
+            style={{ scaleX: scrollYProgress }}
           />
         </div>
         <div className="flex items-center gap-2">
@@ -298,20 +304,20 @@ export function HorizontalTimeline() {
   const ref = useRef<HTMLElement>(null)
   const reducedMotion = useReducedMotion()
   const [activeIndex, setActiveIndex] = useState(0)
-  const [progress, setProgress] = useState(0)
 
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
   })
 
+  // Only the active step is React state now — it changes a handful of times,
+  // where the visual scrub changes every frame and is handled by motion values.
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    setProgress(latest)
     const nextIndex = Math.min(
       STORY_STEPS.length - 1,
       Math.max(0, Math.floor(latest * STORY_STEPS.length)),
     )
-    setActiveIndex(nextIndex)
+    setActiveIndex((previous) => (previous === nextIndex ? previous : nextIndex))
   })
 
   if (reducedMotion) {
@@ -363,12 +369,12 @@ export function HorizontalTimeline() {
                   step={step}
                   index={index}
                   activeIndex={activeIndex}
-                  progress={progress}
+                  scrollYProgress={scrollYProgress}
                 />
               ))}
             </div>
 
-            <ProgressRail progress={progress} activeIndex={activeIndex} />
+            <ProgressRail scrollYProgress={scrollYProgress} activeIndex={activeIndex} />
           </div>
         </div>
       </div>

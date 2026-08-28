@@ -1,6 +1,7 @@
 "use client"
 import { useEffect } from "react"
 import { usePathname } from "next/navigation"
+import { cancelFrame, frame } from "framer-motion"
 import Lenis from "lenis"
 
 declare global {
@@ -16,12 +17,12 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     const smoothPointer = window.matchMedia("(hover: hover) and (pointer: fine)")
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
     let lenis: Lenis | undefined
-    let rafId: number | undefined
+    let tick: ((data: { timestamp: number }) => void) | undefined
 
     const destroyLenis = () => {
-      if (rafId !== undefined) {
-        cancelAnimationFrame(rafId)
-        rafId = undefined
+      if (tick) {
+        cancelFrame(tick)
+        tick = undefined
       }
 
       lenis?.destroy()
@@ -44,12 +45,21 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
 
       window.__lenis = lenis
 
-      const raf = (time: number) => {
-        lenis?.raf(time)
-        rafId = requestAnimationFrame(raf)
+      /*
+       * Lenis used to drive itself from its own requestAnimationFrame while
+       * Motion ran a second loop of its own. Scroll position was written in one
+       * frame and read in the next, which left every scroll-linked animation
+       * trailing the actual scroll by a frame.
+       *
+       * Driving Lenis from Motion's frameloop — the same single-ticker idea
+       * GSAP applies with gsap.ticker — puts the scroll update and everything
+       * reading it in one pass, in order.
+       */
+      tick = ({ timestamp }) => {
+        lenis?.raf(timestamp)
       }
 
-      rafId = requestAnimationFrame(raf)
+      frame.update(tick, true)
     }
 
     syncLenis()

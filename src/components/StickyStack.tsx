@@ -1,5 +1,5 @@
 "use client"
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import {
   motion,
   useMotionTemplate,
@@ -285,16 +285,38 @@ function ProjectVisual({ project }: { project: Project }) {
   const gradientId = `${safeId}-lens-gradient`
   const bloomId = `${safeId}-lens-bloom`
 
-  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
+  // A pointer can fire several times per frame, and each getBoundingClientRect
+  // during a scroll forces the browser to lay out again. Coalescing to one read
+  // per frame keeps the parallax identical and the reflows down to one.
+  const pointer = useRef<{ x: number; y: number; node: HTMLDivElement } | null>(null)
+  const pointerFrame = useRef(0)
 
-    mouseX.set(x)
-    mouseY.set(y)
-    parallaxX.set((x / rect.width - 0.5) * 14)
-    parallaxY.set((y / rect.height - 0.5) * 14)
-    lensOpacity.set(1)
+  useEffect(
+    () => () => {
+      if (pointerFrame.current) cancelAnimationFrame(pointerFrame.current)
+    },
+    [],
+  )
+
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    pointer.current = { x: e.clientX, y: e.clientY, node: e.currentTarget }
+    if (pointerFrame.current) return
+
+    pointerFrame.current = requestAnimationFrame(() => {
+      pointerFrame.current = 0
+      const latest = pointer.current
+      if (!latest) return
+
+      const rect = latest.node.getBoundingClientRect()
+      const x = latest.x - rect.left
+      const y = latest.y - rect.top
+
+      mouseX.set(x)
+      mouseY.set(y)
+      parallaxX.set((x / rect.width - 0.5) * 14)
+      parallaxY.set((y / rect.height - 0.5) * 14)
+      lensOpacity.set(1)
+    })
   }
 
   function handleMouseLeave(e: React.MouseEvent<HTMLDivElement>) {
