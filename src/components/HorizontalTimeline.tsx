@@ -55,37 +55,41 @@ function getStepMotionRanges(index: number, total: number) {
   const segment = 1 / total
   const start = index * segment
   const end = (index + 1) * segment
-  const fade = segment * 0.25
-  const edgePadding = fade * 0.35
+
+  /*
+   * The hand-off is centred on the boundary and shared by both steps: the one
+   * leaving and the one arriving run the same window in opposite directions,
+   * so their opacities always sum to one and something is always legible.
+   *
+   * Offsetting those windows instead — as this did before — left both steps
+   * near a quarter opacity at the crossover, which read as two blurred copies
+   * of the text and nothing to actually look at.
+   */
+  const handoff = segment * 0.1
 
   if (index === 0) {
     return {
-      input: [0, Math.max(0, end - fade), Math.min(1, end + edgePadding)],
+      input: [0, end - handoff, end + handoff],
       opacity: [1, 1, 0],
       y: [0, 0, -18],
-      blur: ["blur(0px)", "blur(0px)", "blur(8px)"],
+      blur: ["blur(0px)", "blur(0px)", "blur(6px)"],
     }
   }
 
   if (index === total - 1) {
     return {
-      input: [Math.max(0, start - edgePadding), Math.min(1, start + fade), 1],
+      input: [start - handoff, start + handoff, 1],
       opacity: [0, 1, 1],
       y: [24, 0, 0],
-      blur: ["blur(8px)", "blur(0px)", "blur(0px)"],
+      blur: ["blur(6px)", "blur(0px)", "blur(0px)"],
     }
   }
 
   return {
-    input: [
-      Math.max(0, start - edgePadding),
-      Math.min(1, start + fade),
-      Math.max(0, end - fade),
-      Math.min(1, end + edgePadding),
-    ],
+    input: [start - handoff, start + handoff, end - handoff, end + handoff],
     opacity: [0, 1, 1, 0],
     y: [24, 0, 0, -18],
-    blur: ["blur(8px)", "blur(0px)", "blur(0px)", "blur(8px)"],
+    blur: ["blur(6px)", "blur(0px)", "blur(0px)", "blur(6px)"],
   }
 }
 
