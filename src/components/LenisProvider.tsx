@@ -1,5 +1,6 @@
 "use client"
 import { useEffect } from "react"
+import { usePathname } from "next/navigation"
 import Lenis from "lenis"
 
 declare global {
@@ -7,6 +8,10 @@ declare global {
 }
 
 export function LenisProvider({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname()
+  const useNativeScroll =
+    pathname === "/concept" || pathname.startsWith("/concept/")
+
   useEffect(() => {
     const smoothPointer = window.matchMedia("(hover: hover) and (pointer: fine)")
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -25,7 +30,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     }
 
     const syncLenis = () => {
-      if (!smoothPointer.matches || reducedMotion.matches) {
+      if (useNativeScroll || !smoothPointer.matches || reducedMotion.matches) {
         destroyLenis()
         return
       }
@@ -56,7 +61,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
       reducedMotion.removeEventListener("change", syncLenis)
       destroyLenis()
     }
-  }, [])
+  }, [useNativeScroll])
 
   return <>{children}</>
 }

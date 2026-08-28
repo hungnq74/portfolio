@@ -1,0 +1,724 @@
+.poster {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 18rem;
+  overflow: hidden;
+  color: var(--world-ink);
+  background:
+    linear-gradient(90deg, transparent 49.9%, var(--world-line) 50%, transparent 50.1%),
+    linear-gradient(transparent 49.9%, var(--world-line) 50%, transparent 50.1%);
+  isolation: isolate;
+}
+
+.paperGrid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(var(--world-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--world-line) 1px, transparent 1px);
+  background-size: clamp(2.5rem, 5vw, 4.75rem) clamp(2.5rem, 5vw, 4.75rem);
+  mask-image: linear-gradient(90deg, transparent 2%, black 25%, black 96%, transparent);
+  opacity: 0.42;
+}
+
+.registration {
+  position: absolute;
+  z-index: 4;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-color: var(--world-ink);
+  opacity: 0.64;
+}
+
+.registration::before,
+.registration::after {
+  position: absolute;
+  background: currentColor;
+  content: "";
+}
+
+.registration::before {
+  top: 50%;
+  left: -0.35rem;
+  width: 2.05rem;
+  height: 1px;
+}
+
+.registration::after {
+  top: -0.35rem;
+  left: 50%;
+  width: 1px;
+  height: 2.05rem;
+}
+
+.registrationNW {
+  top: 6%;
+  left: 5%;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+
+.registrationNE {
+  top: 6%;
+  right: 5%;
+  border-top: 1px solid;
+  border-right: 1px solid;
+}
+
+.registrationSW {
+  bottom: 6%;
+  left: 5%;
+  border-bottom: 1px solid;
+  border-left: 1px solid;
+}
+
+.registrationSE {
+  right: 5%;
+  bottom: 6%;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+}
+
+.indexRule {
+  position: absolute;
+  top: 8.25%;
+  right: 10%;
+  z-index: 3;
+  width: min(18vw, 12rem);
+  height: 1px;
+  background: var(--world-line);
+}
+
+.indexDot {
+  position: absolute;
+  top: calc(8.25% - 2px);
+  right: 10%;
+  z-index: 4;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--world-signal);
+}
+
+.filament,
+.filamentSignal {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 1px;
+  background: var(--world-line);
+}
+
+.filamentSignal {
+  left: 5%;
+  z-index: 2;
+  width: 8%;
+  background: var(--world-signal);
+}
+
+.diagram {
+  position: absolute;
+  top: 14%;
+  right: 6%;
+  bottom: 13%;
+  left: 39%;
+  z-index: 3;
+}
+
+/* Dreamify: scattered evidence becomes one precise signal. */
+.compressBaseline {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: var(--world-line);
+}
+
+.scatter {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  left: 0;
+  width: 42%;
+}
+
+.scatterDot,
+.attractNode {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: var(--size, 5px);
+  height: var(--size, 5px);
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: var(--world-surface);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--world-surface) 80%, transparent);
+}
+
+.scatterDot:nth-child(3n + 1) {
+  background: var(--world-ink);
+}
+
+.scatterDot:nth-child(4n) {
+  border-color: var(--world-signal);
+}
+
+.convergeLine {
+  position: absolute;
+  left: 15%;
+  width: 89%;
+  height: 1px;
+  background: var(--world-line);
+  transform-origin: right center;
+}
+
+.convergeLineA {
+  top: 23%;
+  transform: rotate(18deg);
+}
+
+.convergeLineB {
+  top: 50%;
+}
+
+.convergeLineC {
+  top: 77%;
+  transform: rotate(-18deg);
+}
+
+.aperture {
+  position: absolute;
+  top: 50%;
+  border: 1px solid var(--world-ink);
+  border-radius: 50%;
+  background: var(--world-surface);
+  transform: translate(-50%, -50%);
+}
+
+.apertureOuter {
+  left: 50%;
+  width: clamp(4.75rem, 9vw, 8.5rem);
+  height: 64%;
+}
+
+.apertureInner {
+  left: 57%;
+  width: clamp(2.75rem, 5vw, 4.75rem);
+  height: 39%;
+  border-color: var(--world-signal);
+}
+
+.beam,
+.beamSignal {
+  position: absolute;
+  top: calc(50% - 1px);
+  right: 2%;
+  left: 57%;
+  height: 2px;
+  background: var(--world-ink);
+}
+
+.beamSignal {
+  top: calc(50% - 2px);
+  height: 1px;
+  background: var(--world-signal);
+  transform: translateY(-4px);
+}
+
+.beamTerminal {
+  position: absolute;
+  top: calc(50% - 4px);
+  right: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--world-signal);
+}
+
+/* Imely: a singular seed establishes two visible community fields. */
+.attract {
+  left: 48%;
+}
+
+.halo {
+  position: absolute;
+  top: 50%;
+  left: 51%;
+  border: 1px dashed var(--world-ink);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.haloOuter {
+  width: min(100%, 36rem);
+  aspect-ratio: 1.55;
+  opacity: 0.5;
+}
+
+.haloInner {
+  width: min(64%, 22rem);
+  aspect-ratio: 1.45;
+  border-color: var(--world-signal);
+}
+
+.seedAxisX,
+.seedAxisY {
+  position: absolute;
+  top: 50%;
+  left: 51%;
+  background: var(--world-line);
+  transform: translate(-50%, -50%);
+}
+
+.seedAxisX {
+  width: 44%;
+  height: 1px;
+}
+
+.seedAxisY {
+  width: 1px;
+  height: 52%;
+}
+
+.seed {
+  position: absolute;
+  top: 50%;
+  left: 51%;
+  width: clamp(1.8rem, 4vw, 3.5rem);
+  aspect-ratio: 1;
+  border: 6px solid color-mix(in srgb, var(--world-signal) 18%, transparent);
+  border-radius: 50%;
+  background: var(--world-signal);
+  box-shadow: 0 0 0 1px var(--world-ink);
+  transform: translate(-50%, -50%);
+}
+
+.attractNode {
+  z-index: 2;
+}
+
+.attractNode:nth-of-type(4n + 1) {
+  border-color: var(--world-signal);
+}
+
+.gravityLine {
+  position: absolute;
+  left: 50%;
+  width: 25%;
+  height: 1px;
+  background: var(--world-line);
+  transform-origin: left center;
+}
+
+.gravityLineA {
+  top: 50%;
+  transform: rotate(-138deg);
+}
+
+.gravityLineB {
+  top: 50%;
+  transform: rotate(36deg);
+}
+
+.gravityLineC {
+  top: 50%;
+  transform: rotate(154deg);
+}
+
+/* AI Hay: irregular pleats resolve into an indexed knowledge field. */
+.unfold {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.86fr) 1px minmax(10rem, 1.14fr);
+  gap: clamp(1.25rem, 3vw, 3.5rem);
+  align-items: center;
+}
+
+.pleatField,
+.ruleField {
+  position: relative;
+  height: 78%;
+}
+
+.pleat {
+  position: absolute;
+  top: calc(var(--pleat-index) * 14%);
+  right: 0;
+  left: calc((var(--pleat-index) % 2) * 9%);
+  height: 1px;
+  background: var(--world-ink);
+  clip-path: polygon(0 0, 22% 0, 30% 100%, 52% 100%, 59% 0, 82% 0, 100% 100%, 100% 100%, 0 100%);
+  transform: rotate(calc((var(--pleat-index) - 3) * 1.6deg));
+}
+
+.pleat::before {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--world-ink);
+  border-radius: 50%;
+  background: var(--world-surface);
+  content: "";
+}
+
+.unfoldHinge {
+  width: 1px;
+  height: 84%;
+  background: var(--world-ink);
+}
+
+.unfoldSignal {
+  position: absolute;
+  top: 50%;
+  left: calc(43% - 4px);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--world-signal);
+}
+
+.ruleField {
+  display: grid;
+  align-content: space-between;
+}
+
+.orderedRule {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: var(--world-ink);
+}
+
+.orderedRule:nth-child(2n) {
+  width: 86%;
+}
+
+.orderedRule:nth-child(3n) {
+  width: 94%;
+}
+
+.ruleIndexA,
+.ruleIndexB {
+  position: absolute;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--world-signal);
+  border-radius: 50%;
+  background: var(--world-surface);
+}
+
+.ruleIndexA {
+  top: 16%;
+}
+
+.ruleIndexB {
+  bottom: 16%;
+}
+
+/* VNGGames CS: irregular tributaries pass through one resolution gate. */
+.route {
+  display: grid;
+  grid-template-columns: 1fr clamp(2.75rem, 5vw, 4.75rem) 1.15fr;
+  align-items: center;
+  gap: clamp(0.6rem, 2vw, 2rem);
+}
+
+.tributaryField,
+.resolvedField {
+  position: relative;
+  height: 75%;
+}
+
+.tributary,
+.resolvedLane {
+  position: absolute;
+  right: 0;
+  height: 1px;
+  background: var(--world-ink);
+  transform-origin: right center;
+}
+
+.tributary {
+  width: 95%;
+}
+
+.tributary::before {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: var(--world-surface);
+  content: "";
+}
+
+.tributary1 {
+  top: 7%;
+  transform: rotate(17deg);
+}
+
+.tributary2 {
+  top: 28%;
+  width: 74%;
+  transform: rotate(9deg);
+}
+
+.tributary3 {
+  top: 50%;
+}
+
+.tributary4 {
+  top: 72%;
+  width: 84%;
+  transform: rotate(-10deg);
+}
+
+.tributary5 {
+  top: 93%;
+  transform: rotate(-18deg);
+}
+
+.routeGate {
+  width: 100%;
+  height: 72%;
+  border: 1px solid var(--world-ink);
+  background:
+    linear-gradient(90deg, transparent calc(50% - 0.5px), var(--world-line) 50%, transparent calc(50% + 0.5px)),
+    var(--world-surface);
+}
+
+.routeGateSignal {
+  position: absolute;
+  top: 50%;
+  left: 44%;
+  width: clamp(0.7rem, 1.6vw, 1.25rem);
+  height: 32%;
+  border: 1px solid var(--world-ink);
+  background: var(--world-signal);
+  transform: translate(-50%, -50%);
+}
+
+.resolvedLane {
+  position: relative;
+  top: auto;
+  right: auto;
+  display: block;
+  width: 100%;
+}
+
+.resolvedField {
+  display: grid;
+  align-content: space-between;
+}
+
+.resolvedLane::after {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--world-signal);
+  content: "";
+}
+
+.routeTerminal {
+  position: absolute;
+  top: 12.5%;
+  right: 0;
+  bottom: 12.5%;
+  width: 1px;
+  background: var(--world-signal);
+}
+
+/* Cosmoagents: four separated arcs close through a signal bridge. */
+.loop {
+  top: 10%;
+  bottom: 10%;
+  left: 47%;
+}
+
+.loopArc {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(82%, 28rem);
+  aspect-ratio: 1;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loopArcA {
+  border-top-color: var(--world-ink);
+  transform: translate(-50%, -50%) rotate(8deg);
+}
+
+.loopArcB {
+  border-right-color: var(--world-ink);
+  transform: translate(-50%, -50%) rotate(8deg);
+}
+
+.loopArcC {
+  border-bottom-color: var(--world-ink);
+  transform: translate(-50%, -50%) rotate(8deg);
+}
+
+.loopArcD {
+  border-left-color: var(--world-ink);
+  transform: translate(-50%, -50%) rotate(8deg);
+}
+
+.loopClosure {
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  width: min(18%, 5.4rem);
+  height: 3px;
+  background: var(--world-signal);
+  transform: rotate(15deg) translateX(-50%);
+  transform-origin: left center;
+}
+
+.loopCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(1rem, 2vw, 1.75rem);
+  aspect-ratio: 1;
+  border: 1px solid var(--world-ink);
+  border-radius: 50%;
+  background: var(--world-signal);
+  transform: translate(-50%, -50%);
+}
+
+.loopAxisX,
+.loopAxisY {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  background: var(--world-line);
+  transform: translate(-50%, -50%);
+}
+
+.loopAxisX {
+  width: 94%;
+  height: 1px;
+}
+
+.loopAxisY {
+  width: 1px;
+  height: 94%;
+}
+
+.socket {
+  --socket-radius: clamp(7.4rem, 14vw, 13.3rem);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(0.75rem, 1.4vw, 1.15rem);
+  aspect-ratio: 1;
+  border: 1px solid var(--world-ink);
+  border-radius: 50%;
+  background: var(--world-surface);
+  box-shadow: inset 0 0 0 3px var(--world-surface);
+  transform:
+    translate(-50%, -50%)
+    rotate(var(--socket-angle))
+    translateX(var(--socket-radius));
+}
+
+.socket:nth-of-type(2n) {
+  background: var(--world-signal);
+}
+
+@media (max-width: 760px) {
+  .poster {
+    min-height: 15rem;
+  }
+
+  .diagram {
+    top: 12%;
+    right: 4%;
+    bottom: 12%;
+    left: 22%;
+  }
+
+  .attract,
+  .loop {
+    left: 30%;
+  }
+
+  .unfold {
+    grid-template-columns: minmax(5rem, 0.8fr) 1px minmax(7rem, 1.2fr);
+    gap: 1rem;
+  }
+
+  .route {
+    grid-template-columns: 1fr 2.4rem 1.1fr;
+    gap: 0.6rem;
+  }
+
+  .routeGateSignal {
+    left: 43%;
+  }
+
+  .socket {
+    --socket-radius: clamp(5.4rem, 24vw, 8.8rem);
+  }
+}
+
+@media (max-width: 440px) {
+  .poster {
+    min-height: 13rem;
+  }
+
+  .registration {
+    transform: scale(0.72);
+  }
+
+  .diagram {
+    left: 14%;
+  }
+
+  .attract,
+  .loop {
+    left: 18%;
+  }
+
+  .apertureOuter {
+    height: 54%;
+  }
+
+  .haloOuter {
+    width: 94%;
+  }
+
+  .pleatField,
+  .ruleField {
+    height: 68%;
+  }
+
+  .socket {
+    --socket-radius: min(27vw, 6.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster,
+  .poster * {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
