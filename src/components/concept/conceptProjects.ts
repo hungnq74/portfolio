@@ -38,7 +38,6 @@ export interface ConceptProject {
   url: string
   role: string
   descriptor: string
-  angle: string
   summary: string
   proofs: readonly ConceptProofMetric[]
   artifact: ConceptArtifactConfig
@@ -59,7 +58,6 @@ export const CONCEPT_FEATURED_PROJECTS = [
     url: "https://app.dreamify.dev/",
     role: "Founder & CEO",
     descriptor: "Self-funded AI data analyst",
-    angle: "Raw data → trusted decisions",
     summary:
       "A self-funded AI data analyst built from zero to early traction for non-technical founders and marketers.",
     proofs: [
@@ -79,7 +77,6 @@ export const CONCEPT_FEATURED_PROJECTS = [
     url: "https://imely.ai/",
     role: "Product Development & GTM",
     descriptor: "AI consumer companion",
-    angle: "One companion → a growing community",
     summary:
       "Led product development and go-to-market from zero users to meaningful consumer traction and recurring revenue.",
     proofs: [
@@ -111,7 +108,6 @@ export const CONCEPT_FEATURED_PROJECTS = [
     url: "https://ai-hay.vn/",
     role: "AI Product Owner",
     descriptor: "Series A AI product domain",
-    angle: "AI discovery at production scale",
     summary:
       "Led a 300K MAU AI product domain at 21 and scaled its user base by 200%.",
     proofs: [
@@ -130,7 +126,6 @@ export const CONCEPT_FEATURED_PROJECTS = [
     url: "https://support.vnggames.com/",
     role: "Product Owner",
     descriptor: "AI-assisted support operations",
-    angle: "Complex requests → resolved paths",
     summary:
       "Pioneered AI integration for customer support, increasing AI-resolved requests by 154%.",
     proofs: [
@@ -149,7 +144,6 @@ export const CONCEPT_FEATURED_PROJECTS = [
     url: "https://cosmoagents.ai/",
     role: "Solo PM",
     descriptor: "AI lead-nurturing SaaS",
-    angle: "Research → product → revenue",
     summary:
       "Built an AI lead-nurturing SaaS from wireframes to revenue and closed five organic B2B deals.",
     proofs: [{ value: "5", label: "organic B2B deals" }],

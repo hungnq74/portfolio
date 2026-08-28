@@ -1,6 +1,7 @@
 "use client"
 
 import dynamic from "next/dynamic"
+import { Bricolage_Grotesque } from "next/font/google"
 import { useEffect, useMemo, useRef, useState } from "react"
 import {
   motion,
@@ -10,6 +11,16 @@ import {
   useSpring,
 } from "framer-motion"
 import { PROJECTS } from "@/lib/projects"
+
+// Bricolage Grotesque carries every tier on this page, from the 9px labels to
+// the display lines. `opsz` and `wdth` are loaded as real axes so the family
+// can re-cut itself per size instead of being scaled up and down.
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  axes: ["opsz", "wdth"],
+  variable: "--font-bricolage",
+  display: "swap",
+})
 import {
   CONCEPT_FEATURED_ORDER,
   CONCEPT_HERO_PROOFS,
@@ -24,7 +35,7 @@ const WorkWorld = dynamic(() => import("./work/WorkWorld"), {
   ssr: false,
   loading: () => (
     <div className={styles.worldLoading} role="status">
-      <span>Calibrating proof plotter</span>
+      <span>Loading</span>
       <i aria-hidden="true" />
     </div>
   ),
@@ -293,7 +304,7 @@ export function ConceptLanding() {
   }
 
   return (
-    <div ref={rootRef} className={styles.concept} data-theme={theme}>
+    <div ref={rootRef} className={`${bricolage.variable} ${styles.concept}`} data-theme={theme}>
       <div className={styles.atmosphere} aria-hidden="true" />
       <div
         ref={cursorRef}
@@ -361,20 +372,8 @@ export function ConceptLanding() {
             <span />
             <span />
             <span />
-            <i>HCMC → WORLD</i>
           </div>
           <HeroThreadField theme={theme} className={styles.heroThreadField} />
-
-          <motion.div
-            className={styles.heroTopline}
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.72, delay: 0.05, ease: HERO_EASE }}
-          >
-            <span>Hung Nguyen</span>
-            <span>Founder · Product operator · AI builder</span>
-            <span>Ho Chi Minh City, VN</span>
-          </motion.div>
 
           <motion.h1 aria-label="I build AI products that move.">
             <motion.span
@@ -441,10 +440,6 @@ export function ConceptLanding() {
 
         <section id="work" className={styles.workSection} data-thread-section>
           <div className={styles.sectionHeading}>
-            <div>
-              <span>01 / Selected systems</span>
-              <span>Native scroll · one reversible proof plotter</span>
-            </div>
             <h2>
               Products shipped
               <br />
@@ -479,7 +474,6 @@ export function ConceptLanding() {
 
         <section id="story" className={styles.storySection} data-thread-section>
           <div className={styles.storyIntro}>
-            <span>02 / Founder story</span>
             <h2>
               I don&apos;t collect titles.
               <br />
@@ -492,10 +486,9 @@ export function ConceptLanding() {
           </div>
 
           <div className={styles.milestones}>
-            {CONCEPT_STORY_MILESTONES.map((milestone, index) => (
+            {CONCEPT_STORY_MILESTONES.map((milestone) => (
               <article key={milestone.title}>
                 <div>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
                   <time>{milestone.date}</time>
                 </div>
                 <h3>{milestone.title}</h3>
@@ -507,11 +500,6 @@ export function ConceptLanding() {
         </section>
 
         <section id="contact" className={styles.contactSection} data-thread-section>
-          <div className={styles.contactKicker}>
-            <span>03 / Contact</span>
-            <span>Replies within 24h</span>
-          </div>
-
           <p>Have a difficult product problem?</p>
           <a
             className={styles.contactLink}

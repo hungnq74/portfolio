@@ -170,11 +170,6 @@ function StaticWorkList({
       data-theme={theme}
       data-reduced-motion="true"
     >
-      <p className={styles.staticIntro}>
-        <span>01 / Selected systems</span>
-        <span>Motion reduced · every proof preserved</span>
-      </p>
-
       <div className={styles.staticList}>
         {projects.map((project, projectIndex) => (
           <article
@@ -190,7 +185,6 @@ function StaticWorkList({
                 <span>{String(projectIndex + 1).padStart(2, "0")} / 05</span>
                 <span>{project.role}</span>
               </div>
-              <p className={styles.projectAngle}>{project.angle}</p>
               <h3>{project.name}</h3>
               <p className={styles.projectDescriptor}>{project.descriptor}</p>
               <p className={styles.projectSummary}>{project.summary}</p>
@@ -470,11 +464,6 @@ export function WorkWorld({
           </CanvasBoundary>
         ) : null}
 
-        <div className={styles.stageChrome} aria-hidden="true">
-          <span>Proof plotter / {activeProject.artifact.kind}</span>
-          <span>{phase}</span>
-        </div>
-
         <div className={styles.copyDeck}>
           {safeProjects.map((project, projectIndex) => {
             const isActive = projectIndex === activeIndex
@@ -492,12 +481,10 @@ export function WorkWorld({
                 aria-labelledby={`work-${project.slug}-title`}
               >
                 <div className={styles.projectMeta}>
-                  <span>{String(projectIndex + 1).padStart(2, "0")} / 05</span>
                   <span>{project.role}</span>
                 </div>
 
                 <div className={styles.projectIdentity}>
-                  <p className={styles.projectAngle}>{project.angle}</p>
                   <h3 id={`work-${project.slug}-title`}>{project.name}</h3>
                   <p className={styles.projectDescriptor}>{project.descriptor}</p>
                   <p className={styles.projectSummary}>{project.summary}</p>
@@ -559,9 +546,7 @@ export function WorkWorld({
 
         {useStaticPlotter ? (
           <p className={styles.fallbackLabel} aria-live="polite">
-            {contextLost
-              ? "3D context recovering · showing plotter poster"
-              : "Plotter poster mode"}
+            {contextLost ? "Reloading the visual" : "Showing a static view"}
           </p>
         ) : null}
       </div>

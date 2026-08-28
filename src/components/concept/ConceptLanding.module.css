@@ -12,9 +12,35 @@
   overflow: clip;
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-geist), system-ui, sans-serif;
+  font-family: var(--font-bricolage), "Helvetica Neue", system-ui, sans-serif;
+  font-optical-sizing: auto;
+  font-synthesis-style: none;
   transition: background-color 500ms ease, color 500ms ease;
   isolation: isolate;
+
+  /*
+   * One family, two axes doing the work that two families used to do.
+   *
+   * `opsz` stays on auto: Bricolage re-cuts itself between the 9px labels
+   * (open apertures, sturdy joins) and the 200px display lines (tight,
+   * refined) without us hand-tuning a single value.
+   *
+   * `wdth` is the expressive axis. 100 is the page's default voice; the
+   * condensed cut replaces the serif italic this page used to lean on,
+   * since Bricolage ships no true italic and a synthesised oblique
+   * would read as a mistake (hence font-synthesis-style: none above).
+   */
+  --wdth: 100;
+  --wdth-condensed: 78;
+}
+
+/*
+ * font-variation-settings is not additive, so it is declared once here and
+ * every rule below steers it through --wdth alone.
+ */
+.concept,
+.concept * {
+  font-variation-settings: "wdth" var(--wdth, 100);
 }
 
 .concept[data-theme="signal"] {
@@ -225,10 +251,11 @@
 .threadLabel {
   overflow: hidden;
   max-width: 100%;
-  font-family: var(--font-instrument), Georgia, serif;
   font-size: 17px;
-  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   line-height: 1.15;
+  --wdth: var(--wdth-condensed);
   text-overflow: ellipsis;
   white-space: nowrap;
   transition: transform 220ms ease;
@@ -423,35 +450,6 @@
   height: 100%;
 }
 
-.heroOrb i {
-  position: absolute;
-  right: 7%;
-  bottom: 18%;
-  font-size: 9px;
-  font-style: normal;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  transform: rotate(90deg);
-}
-
-.heroTopline {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 20px;
-  align-items: center;
-  color: var(--muted);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.heroTopline span:last-child {
-  justify-self: end;
-}
-
 .hero h1 {
   position: relative;
   z-index: 2;
@@ -459,11 +457,11 @@
   width: min-content;
   flex-direction: column;
   margin: auto 0;
-  font-family: var(--font-instrument), Georgia, serif;
   font-size: clamp(88px, 13.2vw, 205px);
-  font-weight: 400;
-  letter-spacing: -0.065em;
-  line-height: 0.73;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 0.84;
+  --wdth: 90;
 }
 
 .hero h1 span {
@@ -481,7 +479,7 @@
 
 .heroOutline {
   color: transparent;
-  -webkit-text-stroke: 1.5px var(--ink);
+  -webkit-text-stroke: 2px var(--ink);
 }
 
 .heroBottom {
@@ -538,11 +536,10 @@
 }
 
 .proofStrip strong {
-  font-family: var(--font-instrument), Georgia, serif;
   font-size: clamp(52px, 5vw, 84px);
-  font-weight: 400;
-  letter-spacing: -0.06em;
-  line-height: 0.9;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 0.94;
 }
 
 .proofStrip span {
@@ -581,17 +578,19 @@
 .sectionHeading h2,
 .storyIntro h2 {
   margin: 0;
-  font-family: var(--font-instrument), Georgia, serif;
   font-size: clamp(62px, 8.8vw, 132px);
-  font-weight: 400;
-  letter-spacing: -0.055em;
-  line-height: 0.86;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+  --wdth: 92;
 }
 
 .sectionHeading em,
 .storyIntro em {
   color: var(--accent);
-  font-weight: 400;
+  font-style: normal;
+  font-weight: 700;
+  --wdth: var(--wdth-condensed);
 }
 
 .worldGate {
@@ -720,10 +719,9 @@
 }
 
 .archive strong {
-  font-family: var(--font-instrument), Georgia, serif;
   font-size: clamp(28px, 3vw, 48px);
-  font-weight: 400;
-  letter-spacing: -0.04em;
+  font-weight: 600;
+  letter-spacing: -0.025em;
 }
 
 .storySection {
@@ -785,11 +783,10 @@
 
 .milestones h3 {
   margin: 70px 0 20px;
-  font-family: var(--font-instrument), Georgia, serif;
   font-size: clamp(40px, 4.6vw, 72px);
-  font-weight: 400;
-  letter-spacing: -0.045em;
-  line-height: 0.94;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
 .milestones p {
@@ -816,13 +813,7 @@
   background: var(--ink);
   color: var(--paper);
   padding: 48px 7vw 34px;
-}
-
-.contactKicker {
-  color: color-mix(in srgb, var(--paper) 62%, transparent);
-}
-
-.contactSection > p {
+}.contactSection > p {
   margin: 13vh 0 22px;
   font-size: 12px;
   font-weight: 700;
@@ -835,17 +826,20 @@
   max-width: 12ch;
   margin-bottom: auto;
   color: var(--paper);
-  font-family: var(--font-instrument), Georgia, serif;
   font-size: clamp(76px, 12vw, 188px);
-  letter-spacing: -0.065em;
-  line-height: 0.77;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 0.86;
+  --wdth: 90;
   text-decoration: none;
 }
 
 .contactLink span {
   color: var(--accent);
-  font-family: var(--font-geist), system-ui, sans-serif;
   font-size: 0.25em;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  --wdth: 100;
   vertical-align: top;
 }
 
@@ -1050,14 +1044,7 @@
   .themeSwitch > span:first-child,
   .themeSwitch > span:last-child {
     display: none;
-  }
-
-  .heroTopline span:last-child {
-    justify-self: end;
-    text-align: right;
-  }
-
-  .heroBottom {
+  }  .heroBottom {
     flex-direction: column;
     gap: 28px;
   }

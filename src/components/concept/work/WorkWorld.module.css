@@ -141,30 +141,7 @@
 
 .stagePoster[data-fallback="true"] {
   opacity: 0.92;
-}
-
-.stageChrome {
-  position: absolute;
-  top: 25px;
-  right: 28px;
-  left: 28px;
-  z-index: 5;
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  color: var(--world-muted);
-  font-size: 9px;
-  font-weight: 750;
-  letter-spacing: 0.16em;
-  pointer-events: none;
-  text-transform: uppercase;
-}
-
-.stageChrome span:last-child {
-  color: var(--project-accent);
-}
-
-.projectRail {
+}.projectRail {
   position: absolute;
   right: 34px;
   bottom: 24px;
@@ -219,10 +196,10 @@
 .railItem > span:nth-child(2) {
   overflow: hidden;
   width: 100%;
-  font-family: var(--font-instrument), Georgia, serif;
   font-size: 14px;
-  font-style: italic;
+  font-weight: 500;
   line-height: 1;
+  --wdth: var(--wdth-condensed);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -380,25 +357,14 @@
 .projectIdentity {
   margin: auto 0;
   padding: 22px 0;
-}
-
-.projectAngle {
-  margin: 0 0 16px;
-  color: var(--project-accent);
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-.chapterCopy h3,
+}.chapterCopy h3,
 .staticCard h3 {
   margin: 0;
-  font-family: var(--font-instrument), Georgia, serif;
   font-size: clamp(68px, 7.2vw, 118px);
-  font-weight: 400;
-  letter-spacing: -0.065em;
-  line-height: 0.78;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 0.88;
+  --wdth: 90;
 }
 
 .projectDescriptor {
@@ -453,10 +419,10 @@
 .staticProofs dt {
   overflow: hidden;
   color: var(--world-ink);
-  font-family: var(--font-instrument), Georgia, serif;
   font-size: clamp(27px, 2.4vw, 42px);
-  letter-spacing: -0.055em;
-  line-height: 0.95;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -515,21 +481,7 @@
 .staticWorld {
   width: 100%;
   padding: 24px 0 120px;
-}
-
-.staticIntro {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  margin: 0 0 30px;
-  color: var(--world-muted);
-  font-size: 9px;
-  font-weight: 750;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.staticList {
+}.staticList {
   display: grid;
   gap: 24px;
 }
@@ -716,13 +668,7 @@
 
   .stageGrid {
     background-size: 42px 42px;
-  }
-
-  .stageChrome {
-    display: none;
-  }
-
-  .projectRail {
+  }  .projectRail {
     right: 12px;
     bottom: 11px;
     left: 12px;
@@ -751,14 +697,7 @@
   .projectIdentity {
     width: 82vw;
     padding: 12px 0;
-  }
-
-  .projectAngle {
-    margin-bottom: 10px;
-    font-size: 9px;
-  }
-
-  .chapterCopy h3 {
+  }  .chapterCopy h3 {
     font-size: clamp(48px, 16vw, 74px);
   }
 
@@ -796,15 +735,7 @@
     width: 160px;
     min-height: 44px;
     font-size: 9px;
-  }
-
-  .staticIntro {
-    flex-direction: column;
-    gap: 8px;
-    font-size: 9px;
-  }
-
-  .staticVisual {
+  }  .staticVisual {
     min-height: 340px;
   }
 
