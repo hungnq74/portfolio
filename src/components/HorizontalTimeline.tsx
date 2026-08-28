@@ -2,7 +2,6 @@
 import { useRef, useState } from "react"
 import {
   motion,
-  useMotionTemplate,
   useMotionValueEvent,
   useScroll,
   useTransform,
@@ -72,7 +71,7 @@ function getStepMotionRanges(index: number, total: number) {
       input: [0, end - handoff, end + handoff],
       opacity: [1, 1, 0],
       y: [0, 0, -18],
-      blur: ["blur(0px)", "blur(0px)", "blur(6px)"],
+      scale: [1, 1, 0.97],
     }
   }
 
@@ -81,7 +80,7 @@ function getStepMotionRanges(index: number, total: number) {
       input: [start - handoff, start + handoff, 1],
       opacity: [0, 1, 1],
       y: [24, 0, 0],
-      blur: ["blur(6px)", "blur(0px)", "blur(0px)"],
+      scale: [0.97, 1, 1],
     }
   }
 
@@ -89,7 +88,7 @@ function getStepMotionRanges(index: number, total: number) {
     input: [start - handoff, start + handoff, end - handoff, end + handoff],
     opacity: [0, 1, 1, 0],
     y: [24, 0, 0, -18],
-    blur: ["blur(6px)", "blur(0px)", "blur(0px)", "blur(6px)"],
+    scale: [0.97, 1, 1, 0.97],
   }
 }
 
@@ -185,18 +184,15 @@ function AnimatedStoryStep({
 }) {
   const ranges = getStepMotionRanges(index, STORY_STEPS.length)
   const input = monotonic(ranges.input)
-  const blurs = ranges.blur.map((value) => Number(value.match(/\d+/)?.[0] ?? 0))
-
   const opacity = useTransform(scrollYProgress, input, ranges.opacity)
   const y = useTransform(scrollYProgress, input, ranges.y)
-  const blur = useTransform(scrollYProgress, input, blurs)
-  const filter = useMotionTemplate`blur(${blur}px)`
+  const scale = useTransform(scrollYProgress, input, ranges.scale)
   const pointerEvents = index === activeIndex ? "auto" : "none"
 
   return (
     <motion.article
       className="absolute inset-0"
-      style={{ opacity, y, filter, pointerEvents }}
+      style={{ opacity, y, scale, pointerEvents }}
       aria-hidden={index !== activeIndex ? "true" : undefined}
     >
       <StoryContent step={step} />
