@@ -1,7 +1,3 @@
-"use client"
-
-import { useEffect, useState } from "react"
-
 /**
  * Shared gate for the WebGL scenes. Kept in one place so the hero backdrop and
  * the project cards cannot drift apart on what counts as a capable device.
@@ -41,22 +37,4 @@ function supportsWebGL(): boolean {
   }
 
   return webglSupport
-}
-
-/**
- * The verdict depends on viewport width, so it cannot be decided once at mount:
- * a window that opens narrow and is widened afterwards would stay on the
- * fallback forever. Re-checking on resize keeps the answer honest.
- */
-export function useCan3D(): boolean {
-  const [able, setAble] = useState(false)
-
-  useEffect(() => {
-    const evaluate = () => setAble(canRender3D())
-    evaluate()
-    window.addEventListener("resize", evaluate)
-    return () => window.removeEventListener("resize", evaluate)
-  }, [])
-
-  return able
 }

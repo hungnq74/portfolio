@@ -1,23 +1,14 @@
 "use client"
-import dynamic from "next/dynamic"
-import { useRef, useState } from "react"
+import { useRef } from "react"
 import {
   motion,
   useMotionTemplate,
   useMotionValue,
-  useMotionValueEvent,
   useScroll,
   useTransform,
   MotionValue,
 } from "framer-motion"
 import { PROJECTS, Project } from "@/lib/projects"
-import { useCan3D } from "@/lib/capability"
-
-// Each card owns a distinct scene, but a live canvas holds a WebGL context and
-// the browser caps how many exist. Mounting the card in front plus its
-// neighbours keeps the next scene warm without spending the whole budget.
-const CardScene = dynamic(() => import("./CardScene"), { ssr: false })
-const NEIGHBOURS = 1
 
 const N        = PROJECTS.length   // 9 cards
 const CARD_VW  = 80                // each card: 80vw wide
@@ -31,11 +22,9 @@ interface CardProps {
   project: Project
   index: number
   scrollYProgress: MotionValue<number>
-  isActive: boolean
-  isNear: boolean
 }
 
-function ProjectCard({ project, index, scrollYProgress, isActive, isNear }: CardProps) {
+function ProjectCard({ project, index, scrollYProgress }: CardProps) {
   const SEG       = 1 / (N - 1)
   const centerAt  = index * SEG
   // Define clean ranges for the first, last, and middle cards
@@ -121,7 +110,7 @@ function ProjectCard({ project, index, scrollYProgress, isActive, isNear }: Card
 
         {/* Right — cursor-reactive visual artifact */}
         <div className="relative mx-5 mb-5 aspect-[4/3] overflow-hidden rounded-[2rem] md:m-8 md:aspect-auto">
-          <ProjectVisual project={project} isActive={isActive} isNear={isNear} />
+          <ProjectVisual project={project} />
         </div>
       </div>
     </motion.div>
@@ -275,19 +264,7 @@ function LensMotif({ lens, accent }: { lens: LensKind; accent: string }) {
   )
 }
 
-function ProjectVisual({
-  project,
-  isActive,
-  isNear,
-}: {
-  project: Project
-  isActive: boolean
-  isNear: boolean
-}) {
-  const capable = useCan3D()
-  // Mounted early so it is ready on arrival; only the front card renders frames.
-  const show3D = capable && isNear
-
+function ProjectVisual({ project }: { project: Project }) {
   const accent = project.visual.accent
   const preset = LENS_PRESETS[project.visual.lens]
   const safeId = project.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")
@@ -420,28 +397,13 @@ function ProjectVisual({
       </motion.svg>
 
       <motion.svg
-        className="pointer-events-none absolute left-[8%] top-[7%] h-[86%] w-[84%] overflow-visible md:left-[7%] md:top-[6%] md:h-[88%] md:w-[86%]"
+        className="pointer-events-none absolute left-[8%] top-[7%] h-[86%] w-[84%] overflow-visible opacity-80 md:left-[7%] md:top-[6%] md:h-[88%] md:w-[86%]"
         viewBox="0 0 100 100"
         preserveAspectRatio="xMidYMid meet"
         style={{ x: motifX, y: motifY, mixBlendMode: "screen" }}
-        animate={{ opacity: show3D ? 0 : 0.8 }}
-        transition={{ duration: 0.5 }}
       >
         <LensMotif lens={project.visual.lens} accent={accent} />
       </motion.svg>
-
-      {/* The flat motif stays the fallback; the orb is the same idea with depth. */}
-      {show3D ? (
-        <motion.div
-          className="pointer-events-none absolute inset-[6%]"
-          style={{ x: motifX, y: motifY }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          <CardScene lens={project.visual.lens} accent={accent} visible={isActive} />
-        </motion.div>
-      ) : null}
 
       <motion.div
         className="absolute inset-0 opacity-0 mix-blend-screen"
@@ -540,14 +502,6 @@ export function StickyStack() {
     offset: ["start start", "end end"]
   })
 
-  // The strip centres card `index` at `index / (N - 1)`, so rounding the scroll
-  // progress back through that mapping names the card currently in front.
-  const [activeIndex, setActiveIndex] = useState(0)
-  useMotionValueEvent(scrollYProgress, "change", (value) => {
-    const next = Math.min(N - 1, Math.max(0, Math.round(value * (N - 1))))
-    setActiveIndex((previous) => (previous === next ? previous : next))
-  })
-
   // Drive the whole strip horizontally: first card centred → last card centred
   const x = useTransform(
     scrollYProgress,
@@ -590,8 +544,6 @@ export function StickyStack() {
                 project={project}
                 index={i}
                 scrollYProgress={scrollYProgress}
-                isActive={i === activeIndex}
-                isNear={Math.abs(i - activeIndex) <= NEIGHBOURS}
               />
             ))}
           </motion.div>
