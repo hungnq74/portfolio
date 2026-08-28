@@ -1,20 +1,20 @@
 import type { Metadata } from "next"
-import { Instrument_Serif } from "next/font/google"
-import localFont from "next/font/local"
+import { Bricolage_Grotesque, Inter } from "next/font/google"
 import { LenisProvider } from "@/components/LenisProvider"
 import "./globals.css"
 
-const instrumentSerif = Instrument_Serif({
+// Bricolage carries display, Inter carries running text — the same split the
+// /concept direction settled on, now shared by every page.
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal", "italic"],
-  variable: "--font-instrument",
+  axes: ["opsz", "wdth"],
+  variable: "--font-bricolage",
   display: "swap",
 })
 
-const geist = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist",
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
   display: "swap",
 })
 
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${geist.variable}`}>
+    <html lang="en" className={`${bricolage.variable} ${inter.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

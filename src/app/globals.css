@@ -38,10 +38,32 @@
   body {
     background: transparent;
     color: theme('colors.slate.900');
-    font-family: var(--font-geist), system-ui, sans-serif;
+    font-family: var(--font-inter), 'Helvetica Neue', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: clip;
+
+    /* Bricolage ships no italic, so a slanted face here would be a synthesised
+       one. Width is the axis that carries that job instead. */
+    font-optical-sizing: auto;
+    font-synthesis-style: none;
+    --wdth: 100;
+    --wdth-condensed: 78;
+  }
+
+  body,
+  body * {
+    font-variation-settings: 'wdth' var(--wdth, 100);
+  }
+
+  /* Instrument Serif sat at 400 and needed no tracking. A grotesque at display
+     sizes wants weight behind it and a tighter fit. */
+  .font-serif {
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    /* Bricolage reads as itself in its condensed cut — the same width the
+       /concept display tier uses. At 100 it flattens into a generic grotesque. */
+    --wdth: 90;
   }
 }
 

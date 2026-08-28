@@ -31,8 +31,8 @@ export function Footer() {
         </p>
 
         <p
-          className="font-serif italic text-slate-950 leading-tight mb-12"
-          style={{ fontSize: "clamp(36px, 5vw, 56px)" }}
+          className="font-serif text-slate-950 leading-tight mb-12"
+          style={{ fontSize: "clamp(36px, 5vw, 56px)", ["--wdth" as string]: "var(--wdth-condensed)" }}
         >
           Let&apos;s build.
         </p>

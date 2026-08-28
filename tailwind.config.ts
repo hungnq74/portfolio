@@ -9,9 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        serif: ["var(--font-instrument)", "Georgia", "serif"],
-        sans:  ["var(--font-geist)", "system-ui", "sans-serif"],
-        mono:  ["var(--font-geist)", "monospace"],
+        serif: ["var(--font-bricolage)", "Helvetica Neue", "system-ui", "sans-serif"],
+        sans:  ["var(--font-inter)", "Helvetica Neue", "system-ui", "sans-serif"],
+        mono:  ["var(--font-inter)", "Helvetica Neue", "system-ui", "sans-serif"],
       },
     },
   },
