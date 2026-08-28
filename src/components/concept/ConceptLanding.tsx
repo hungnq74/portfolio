@@ -1,7 +1,7 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { Bricolage_Grotesque } from "next/font/google"
+import { Bricolage_Grotesque, Inter } from "next/font/google"
 import { useEffect, useMemo, useRef, useState } from "react"
 import {
   motion,
@@ -12,13 +12,22 @@ import {
 } from "framer-motion"
 import { PROJECTS } from "@/lib/projects"
 
-// Bricolage Grotesque carries every tier on this page, from the 9px labels to
-// the display lines. `opsz` and `wdth` are loaded as real axes so the family
-// can re-cut itself per size instead of being scaled up and down.
+// Bricolage Grotesque is the display voice: headlines, figures, section
+// titles. `opsz` and `wdth` are loaded as real axes so it can re-cut itself
+// per size instead of being scaled up and down.
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
   axes: ["opsz", "wdth"],
   variable: "--font-bricolage",
+  display: "swap",
+})
+
+// Inter carries the running text. It is deliberately the quieter half of the
+// pairing — Bricolage supplies the character, Inter stays out of the way at
+// paragraph sizes.
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
   display: "swap",
 })
 import {
@@ -304,7 +313,7 @@ export function ConceptLanding() {
   }
 
   return (
-    <div ref={rootRef} className={`${bricolage.variable} ${styles.concept}`} data-theme={theme}>
+    <div ref={rootRef} className={`${bricolage.variable} ${inter.variable} ${styles.concept}`} data-theme={theme}>
       <div className={styles.atmosphere} aria-hidden="true" />
       <div
         ref={cursorRef}

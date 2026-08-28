@@ -196,6 +196,7 @@
 .railItem > span:nth-child(2) {
   overflow: hidden;
   width: 100%;
+  font-family: var(--display-family);
   font-size: 14px;
   font-weight: 500;
   line-height: 1;
@@ -360,6 +361,7 @@
 }.chapterCopy h3,
 .staticCard h3 {
   margin: 0;
+  font-family: var(--display-family);
   font-size: clamp(68px, 7.2vw, 118px);
   font-weight: 600;
   letter-spacing: -0.04em;
@@ -419,6 +421,7 @@
 .staticProofs dt {
   overflow: hidden;
   color: var(--world-ink);
+  font-family: var(--display-family);
   font-size: clamp(27px, 2.4vw, 42px);
   font-weight: 650;
   letter-spacing: -0.03em;

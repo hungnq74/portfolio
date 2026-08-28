@@ -12,14 +12,17 @@
   overflow: clip;
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-bricolage), "Helvetica Neue", system-ui, sans-serif;
+  font-family: var(--font-inter), "Helvetica Neue", system-ui, sans-serif;
   font-optical-sizing: auto;
   font-synthesis-style: none;
   transition: background-color 500ms ease, color 500ms ease;
   isolation: isolate;
 
   /*
-   * One family, two axes doing the work that two families used to do.
+   * Two families with clearly separated jobs: Inter sets every paragraph and
+   * label, Bricolage is spent only on the display tier below.
+   *
+   * Bricolage's axes still do real work wherever it is used.
    *
    * `opsz` stays on auto: Bricolage re-cuts itself between the 9px labels
    * (open apertures, sturdy joins) and the 200px display lines (tight,
@@ -32,6 +35,7 @@
    */
   --wdth: 100;
   --wdth-condensed: 78;
+  --display-family: var(--font-bricolage), "Helvetica Neue", system-ui, sans-serif;
 }
 
 /*
@@ -251,6 +255,7 @@
 .threadLabel {
   overflow: hidden;
   max-width: 100%;
+  font-family: var(--display-family);
   font-size: 17px;
   font-weight: 500;
   letter-spacing: -0.01em;
@@ -457,6 +462,7 @@
   width: min-content;
   flex-direction: column;
   margin: auto 0;
+  font-family: var(--display-family);
   font-size: clamp(88px, 13.2vw, 205px);
   font-weight: 600;
   letter-spacing: -0.04em;
@@ -536,6 +542,7 @@
 }
 
 .proofStrip strong {
+  font-family: var(--display-family);
   font-size: clamp(52px, 5vw, 84px);
   font-weight: 650;
   letter-spacing: -0.035em;
@@ -578,6 +585,7 @@
 .sectionHeading h2,
 .storyIntro h2 {
   margin: 0;
+  font-family: var(--display-family);
   font-size: clamp(62px, 8.8vw, 132px);
   font-weight: 600;
   letter-spacing: -0.035em;
@@ -719,6 +727,7 @@
 }
 
 .archive strong {
+  font-family: var(--display-family);
   font-size: clamp(28px, 3vw, 48px);
   font-weight: 600;
   letter-spacing: -0.025em;
@@ -783,6 +792,7 @@
 
 .milestones h3 {
   margin: 70px 0 20px;
+  font-family: var(--display-family);
   font-size: clamp(40px, 4.6vw, 72px);
   font-weight: 600;
   letter-spacing: -0.03em;
@@ -826,6 +836,7 @@
   max-width: 12ch;
   margin-bottom: auto;
   color: var(--paper);
+  font-family: var(--display-family);
   font-size: clamp(76px, 12vw, 188px);
   font-weight: 600;
   letter-spacing: -0.04em;
