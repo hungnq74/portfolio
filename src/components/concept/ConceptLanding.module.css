@@ -144,9 +144,9 @@
   background: var(--ink);
   color: var(--paper);
   padding: 7px 10px 6px;
-  font-size: 8px;
-  font-weight: 750;
-  letter-spacing: 0.11em;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   line-height: 1;
   opacity: 0;
   text-overflow: ellipsis;
@@ -198,9 +198,9 @@
 
 .wordmark span {
   color: var(--accent);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.015em;
 }
 
 .threadNav {
@@ -246,9 +246,9 @@
 }
 
 .threadNumber {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.015em;
   line-height: 1;
 }
 
@@ -340,9 +340,9 @@
   background: none;
   padding: 0;
   font: inherit;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -510,9 +510,9 @@
   justify-content: space-between;
   border-bottom: 1px solid var(--ink);
   padding: 12px 0;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-decoration: none;
   text-transform: uppercase;
 }
@@ -551,9 +551,9 @@
 
 .proofStrip span {
   color: var(--muted);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -568,18 +568,6 @@
   gap: 7vw;
   align-items: start;
   margin-bottom: 110px;
-}
-
-.sectionHeading > div {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding-top: 10px;
-  color: var(--muted);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
 }
 
 .sectionHeading h2,
@@ -622,9 +610,9 @@
   background-size: 68px 68px;
   padding: 28px;
   color: var(--muted);
-  font-size: 9px;
-  font-weight: 750;
-  letter-spacing: 0.16em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -672,16 +660,6 @@
 }
 
 .archiveHeading,
-.contactKicker {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  color: var(--muted);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-}
 
 .archive {
   margin-top: 170px;
@@ -716,8 +694,8 @@
 
 .archive a > span {
   color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 0.08em;
+  font-size: 12px;
+  letter-spacing: 0.015em;
 }
 
 .archive a > span:last-child {
@@ -747,16 +725,6 @@
   height: fit-content;
 }
 
-.storyIntro > span {
-  display: block;
-  margin-bottom: 64px;
-  color: var(--muted);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
 .storyIntro h2 {
   font-size: clamp(60px, 6.6vw, 104px);
 }
@@ -784,9 +752,9 @@
   justify-content: space-between;
   gap: 20px;
   color: var(--muted);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -809,8 +777,8 @@
 
 .milestones strong {
   color: var(--accent);
-  font-size: 10px;
-  letter-spacing: 0.11em;
+  font-size: 12px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -862,9 +830,9 @@
   border-top: 1px solid color-mix(in srgb, var(--paper) 20%, transparent);
   padding-top: 22px;
   color: color-mix(in srgb, var(--paper) 64%, transparent);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -935,7 +903,7 @@
   }
 
   .threadNumber {
-    font-size: 9px;
+    font-size: 12px;
   }
 
   .threadLabel {

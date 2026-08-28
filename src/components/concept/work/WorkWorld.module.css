@@ -188,9 +188,9 @@
 }
 
 .railItem > span:first-child {
-  font-size: 9px;
-  font-weight: 750;
-  letter-spacing: 0.18em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.015em;
 }
 
 .railItem > span:nth-child(2) {
@@ -268,9 +268,9 @@
   z-index: 6;
   margin: 0;
   color: var(--world-muted);
-  font-size: 9px;
-  font-weight: 750;
-  letter-spacing: 0.15em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -344,9 +344,9 @@
   justify-content: space-between;
   gap: 18px;
   color: var(--world-muted);
-  font-size: 9px;
-  font-weight: 750;
-  letter-spacing: 0.14em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -372,9 +372,9 @@
 .projectDescriptor {
   margin: 27px 0 0;
   color: var(--world-ink);
-  font-size: 11px;
-  font-weight: 750;
-  letter-spacing: 0.08em;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -434,9 +434,9 @@
 .staticProofs dd {
   margin: 8px 0 0;
   color: var(--world-muted);
-  font-size: 9px;
-  font-weight: 750;
-  letter-spacing: 0.1em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   line-height: 1.4;
   text-transform: uppercase;
 }
@@ -463,9 +463,9 @@
   justify-self: start;
   border-bottom: 1px solid var(--world-ink);
   color: var(--world-ink);
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 0.14em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   pointer-events: auto;
   text-decoration: none;
   text-transform: uppercase;
@@ -678,11 +678,11 @@
   }
 
   .railItem > span:nth-child(2) {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .railItem > span:first-child {
-    font-size: 9px;
+    font-size: 12px;
   }
 
   .fallbackLabel {
@@ -694,7 +694,7 @@
   }
 
   .projectMeta {
-    font-size: 9px;
+    font-size: 12px;
   }
 
   .projectIdentity {
@@ -706,13 +706,13 @@
 
   .projectDescriptor {
     margin-top: 16px;
-    font-size: 9px;
+    font-size: 12px;
   }
 
   .projectSummary {
     max-width: 80vw;
     margin-top: 8px;
-    font-size: 11px;
+    font-size: 13px;
     line-height: 1.45;
   }
 
@@ -731,13 +731,13 @@
 
   .proofGrid dd,
   .staticProofs dd {
-    font-size: 9px;
+    font-size: 12px;
   }
 
   .projectLink {
     width: 160px;
     min-height: 44px;
-    font-size: 9px;
+    font-size: 12px;
   }  .staticVisual {
     min-height: 340px;
   }
