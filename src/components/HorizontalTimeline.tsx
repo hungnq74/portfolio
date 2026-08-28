@@ -1,5 +1,5 @@
 "use client"
-import { useRef, useState } from "react"
+import { useMemo, useRef, useState } from "react"
 import {
   motion,
   useMotionValueEvent,
@@ -185,11 +185,22 @@ function AnimatedStoryStep({
   activeIndex: number
   scrollYProgress: MotionValue<number>
 }) {
-  const ranges = getStepMotionRanges(index, STORY_STEPS.length)
-  const input = monotonic(ranges.input)
-  const opacity = useTransform(scrollYProgress, input, ranges.opacity)
-  const y = useTransform(scrollYProgress, input, ranges.y)
-  const scale = useTransform(scrollYProgress, input, ranges.scale)
+  /*
+   * These arrays feed useTransform, so they must keep the same identity across
+   * renders. Rebuilding them inline meant every change of activeIndex — which
+   * re-renders all four steps — handed useTransform fresh arrays and got a
+   * fresh MotionValue back, leaving the element showing whatever the discarded
+   * one had last written. That is how a step could sit at its mount opacity
+   * while the scroll had long since moved past it.
+   */
+  const ranges = useMemo(() => {
+    const raw = getStepMotionRanges(index, STORY_STEPS.length)
+    return { ...raw, input: monotonic(raw.input) }
+  }, [index])
+
+  const opacity = useTransform(scrollYProgress, ranges.input, ranges.opacity)
+  const y = useTransform(scrollYProgress, ranges.input, ranges.y)
+  const scale = useTransform(scrollYProgress, ranges.input, ranges.scale)
   const pointerEvents = index === activeIndex ? "auto" : "none"
 
   return (
@@ -366,7 +377,8 @@ export function HorizontalTimeline() {
             </div>
 
             <div className="relative flex-1">
-              {STORY_STEPS.map((step, index) => (
+              {STORY_STEPS.map((step, index) =>
+                Math.abs(index - activeIndex) > 1 ? null : (
                 <AnimatedStoryStep
                   key={step.id}
                   step={step}
@@ -374,7 +386,8 @@ export function HorizontalTimeline() {
                   activeIndex={activeIndex}
                   scrollYProgress={scrollYProgress}
                 />
-              ))}
+                ),
+              )}
             </div>
 
             <ProgressRail scrollYProgress={scrollYProgress} activeIndex={activeIndex} />
