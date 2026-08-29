@@ -1,4 +1,5 @@
 export type ConceptProjectName =
+  | "Celesnity"
   | "Dreamify"
   | "Imely"
   | "AI Hay"
@@ -53,6 +54,36 @@ export interface ConceptStoryMilestone {
 export const CONCEPT_FEATURED_PROJECTS = [
   {
     index: "01",
+    slug: "celesnity",
+    name: "Celesnity",
+    url: "https://celesnity.com/",
+    role: "Chief of Staff & Founding Product",
+    descriptor: "Physical intelligence OS",
+    summary:
+      "Joined to build the operating layer for industrial autonomy: connecting people, robots, machines and sensors so a decision can reach the factory floor.",
+    proofs: [
+      {
+        value: "$100K",
+        label: "pre-seed raised",
+      },
+      {
+        value: "20",
+        label: "design partners",
+        qualifier: "in prospect",
+      },
+      {
+        value: "3,370",
+        label: "workers at those sites",
+        detail: "$125M combined revenue",
+      },
+    ],
+    artifact: {
+      kind: "route",
+      interaction: "converge-nearest",
+    },
+  },
+  {
+    index: "02",
     slug: "dreamify",
     name: "Dreamify",
     url: "https://app.dreamify.dev/",
@@ -71,7 +102,7 @@ export const CONCEPT_FEATURED_PROJECTS = [
     },
   },
   {
-    index: "02",
+    index: "03",
     slug: "imely",
     name: "Imely",
     url: "https://imely.ai/",
@@ -101,7 +132,7 @@ export const CONCEPT_FEATURED_PROJECTS = [
     },
   },
   {
-    index: "03",
+    index: "04",
     slug: "ai-hay",
     name: "AI Hay",
     url: "https://ai-hay.vn/",
@@ -119,7 +150,7 @@ export const CONCEPT_FEATURED_PROJECTS = [
     },
   },
   {
-    index: "04",
+    index: "05",
     slug: "vnggames-cs",
     name: "VNGGames CS",
     url: "https://support.vnggames.com/",
@@ -137,7 +168,7 @@ export const CONCEPT_FEATURED_PROJECTS = [
     },
   },
   {
-    index: "05",
+    index: "06",
     slug: "cosmoagents",
     name: "Cosmoagents",
     url: "https://cosmoagents.ai/",

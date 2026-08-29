@@ -13,6 +13,15 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
   {
+    name: "Celesnity",
+    url: "https://celesnity.com/",
+    role: "Chief of Staff & Founding Product",
+    metric: "Physical Intelligence OS",
+    highlight: "$100K pre-seed raised. 20 design partners in prospect, employing 3,370 workers on $125M in combined revenue.",
+    colors: ["#174de0", "#ff7b3d", "#c9dcff"],
+    visual: { lens: "network", accent: "#4c7ef0" },
+  },
+  {
     name: "Dreamify",
     url: "https://app.dreamify.dev/",
     role: "Founder & CEO",

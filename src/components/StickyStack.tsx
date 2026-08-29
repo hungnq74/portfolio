@@ -10,7 +10,7 @@ import {
 } from "framer-motion"
 import { PROJECTS, Project } from "@/lib/projects"
 
-const N        = PROJECTS.length   // 9 cards
+const N        = PROJECTS.length
 const CARD_VW  = 80                // each card: 80vw wide
 const GAP_VW   = 5                 // gap between cards: 5vw
 const STEP_VW  = CARD_VW + GAP_VW // 85vw per step
